@@ -42,15 +42,11 @@ the ArgoCD configuration and restore proper multi-environment delivery.
 
 [**Start the Beginner Challenge**](./beginner.md){ .md-button .md-button--primary }
 
----
-
-### 🟡 Medium: The Silent Canary
+### 🟡 Intermediate: The Silent Canary
 
 **Status:** 🚧 Coming on December 1
 
----
-
-### 🔴 Hard: Echoes in the Dark
+### 🔴 Expert: Echoes in the Dark
 
 **Status:** 🚧 Coming on December 8
 

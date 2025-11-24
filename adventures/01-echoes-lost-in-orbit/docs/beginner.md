@@ -30,6 +30,16 @@ By the end of this level, you should:
 - How to reason about templating and sync policies
 - How drift detection and self-healing operate in GitOps workflows
 
+## 🧰 Toolbox
+
+Your Codespace comes pre-configured with the following tools to help you solve the challenge:
+
+- [`kubectl`](https://kubernetes.io/docs/reference/kubectl/): The Kubernetes command-line tool for interacting with
+  the cluster
+- [`kubectx & kubens`](https://github.com/ahmetb/kubectx): Fast way to switch between Kubernetes contexts and
+  namespaces
+- [`k9s`](https://k9scli.io/): A terminal-based UI to interact with your Kubernetes clusters
+
 ## ✅ How to Play
 
 ### 1. Fork the Repository
