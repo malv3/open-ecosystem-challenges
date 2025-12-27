@@ -9,24 +9,27 @@ data:
     receivers:
       otlp:
         protocols:
-          http:
-            endpoint: 0.0.0.0:4318
+          grpc: {}
+          http: {}
+
     connectors:
       spanmetrics:
         dimensions:
-          - name: hotrod.namespace
-          - name: hotrod.pod.name
-          - name: hotrod.pod.hash
+          - name: hotrod_namespace
+          - name: hotrod_pod_name
+          - name: hotrod_pod_hash
 
     exporters:
       debug:
         verbosity: detailed
-      prometheus:
-        endpoint: "0.0.0.0:8889"
-      otlp/jaeger:
+
+      otlp:
         endpoint: jaeger-collector.jaeger.svc.cluster.local:4317
         tls:
           insecure: true
+
+      prometheus:
+        endpoint: "0.0.0.0:8889"
 
     extensions:
       health_check:
@@ -37,8 +40,8 @@ data:
       pipelines:
         traces:
           receivers: [otlp]
-          exporters: [debug, otlp/jaeger, spanmetrics]
+          exporters: [debug, otlp, spanmetrics]
+
         metrics:
           receivers: [spanmetrics]
-          exporters: [debug, prometheus]
-          
+          exporters: [prometheus, debug]
