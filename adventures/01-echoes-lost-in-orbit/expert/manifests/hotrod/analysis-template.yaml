@@ -51,13 +51,13 @@ spec:
               }[2m]))
             )
     -  name: traffic-detection
-       initialDelay: 90s
+       initialDelay: 30s
        interval: 10s
        count: 5
        successCondition: result[0] >= 0.05
-       failureLimit: 3
-       inconclusiveLimit: 5
-       consecutiveErrorLimit: 3
+       failureLimit: 2
+       inconclusiveLimit: 3
+       consecutiveErrorLimit: 2
        provider:
           prometheus:
             address: http://prometheus-server.prometheus.svc.cluster.local
