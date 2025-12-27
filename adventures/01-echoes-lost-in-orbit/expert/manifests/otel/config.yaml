@@ -7,7 +7,10 @@ metadata:
 data:
   collector-config.yaml: |
     receivers:
-
+      otlp:
+        protocols:
+          http:
+            endpoint: 0.0.0.0:4318
     connectors:
       spanmetrics:
         dimensions:
@@ -18,7 +21,9 @@ data:
     exporters:
       debug:
         verbosity: detailed
-      otlp:
+      prometheus:
+        endpoint: "0.0.0.0:8889"
+      otlp/jaeger:
         endpoint: jaeger-collector.jaeger.svc.cluster.local:4317
         tls:
           insecure: true
@@ -32,5 +37,8 @@ data:
       pipelines:
         traces:
           receivers: [otlp]
-          exporters: [debug, otlp, spanmetrics]
+          exporters: [debug, otlp/jaeger, spanmetrics]
+        metrics:
+          receivers: [spanmetrics]
+          exporters: [debug, prometheus]
           
