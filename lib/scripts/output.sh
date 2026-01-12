@@ -87,9 +87,18 @@ print_test_summary() {
   local docs_url=$2
   local objective=$3
 
+  # Build failed checks JSON array (handle empty array with set -u)
+  local failed_checks_json="[]"
+  if [[ -n "${FAILED_CHECKS[*]:-}" ]]; then
+    failed_checks_json=$(printf '%s\n' "${FAILED_CHECKS[@]}" | jq -R . | jq -s .)
+  fi
+
   print_header "Test Results Summary"
 
   if [[ $TESTS_FAILED -eq 0 ]]; then
+    # Track success
+    track_smoketest_completed "success" "$failed_checks_json"
+
     # test succeeded
     print_success "✅ PASSED: All $TESTS_PASSED checks passed"
     print_new_line
@@ -104,6 +113,9 @@ print_test_summary() {
     print_info "📖 For detailed verification instructions, see: https://dynatrace-oss.github.io/open-ecosystem-challenges/verification/"
     exit
   fi
+
+  # Track failure
+  track_smoketest_completed "failed" "$failed_checks_json"
 
   # test failed
   print_error "❌ FAILED: $TESTS_FAILED check(s) failed, $TESTS_PASSED passed"

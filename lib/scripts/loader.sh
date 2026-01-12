@@ -15,6 +15,8 @@ source "$LIB_DIR/http.sh"
 source "$LIB_DIR/kubernetes.sh"
 source "$LIB_DIR/prometheus.sh"
 source "$LIB_DIR/argo-rollouts.sh"
+source "$LIB_DIR/gcp-mock.sh"
+source "$LIB_DIR/tracker.sh"
 
 # Set up cleanup trap for port-forwards
 trap cleanup_port_forwards EXIT INT TERM
