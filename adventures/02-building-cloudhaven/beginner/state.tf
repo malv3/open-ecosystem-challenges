@@ -6,7 +6,7 @@
 
 resource "google_storage_bucket" "tfstate" {
   name     = "cloudhaven-tfstate"
-  location = "EU"
+  location = "US"
 
   # Prevent accidental deletion of the state bucket
   force_destroy = false
@@ -19,7 +19,7 @@ resource "google_storage_bucket" "tfstate" {
   versioning {
     enabled = true
   }
-  
+
   # Uniform bucket-level access for simplified permissions
   uniform_bucket_level_access = true
 
