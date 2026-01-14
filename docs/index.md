@@ -20,9 +20,22 @@ headaches.
 
 Browse the available adventures and pick one that interests you:
 
-### [Echoes Lost in Orbit](01-echoes-lost-in-orbit/index.md)
+### January 2026: [Building CloudHaven](02-building-cloudhaven/index.md)
 
-**Story:** Restore interstellar communications by fixing broken GitOps setups, progressive delivery systems, and observability pipelines across three galactic missions.
+**Story:** Join the Infrastructure Guild and modernize CloudHaven's infrastructure from manual provisioning to a
+self-service platform using Infrastructure as Code.
+
+| Level           | Name                  | 🧠 Key Learnings                                                                                                                                |
+|-----------------|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| 🟢 Beginner     | The Foundation Stones | <ul><li>Infrastructure as Code with OpenTofu</li><li>Remote state management with GCS backend</li><li>Dynamic & conditional resources</li></ul> |
+| 🟡 Intermediate | *Coming Soon*         |                                                                                                                                                 |
+| 🔴 Expert       | *Coming Soon*         |                                                                                                                                                 |
+
+
+### December 2025: [Echoes Lost in Orbit](01-echoes-lost-in-orbit/index.md)
+
+**Story:** Restore interstellar communications by fixing broken GitOps setups, progressive delivery systems, and
+observability pipelines across three galactic missions.
 
 | Level           | Name                              | 🧠 Key Learnings                                                                                                                                                                                                                                                     |
 |-----------------|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -34,7 +47,8 @@ More adventures coming soon!
 
 ## 🎮 How It Works
 
-**Each level is independent** - start anywhere, complete in any order. Levels share a connected story but have their own:
+**Each level is independent** - start anywhere, complete in any order. Levels share a connected story but have their
+own:
 
 - Codespace configuration
 - Documentation and guides
@@ -64,10 +78,12 @@ No! Each level is independent. Start wherever you feel comfortable.
 Absolutely! Perfect for upskilling, onboarding, internal training, and hackathons.
 
 **Are there costs?**  
-GitHub Codespaces offers free hours per month - usually sufficient for individual use. Check [GitHub's pricing](https://github.com/features/codespaces) for details.
+GitHub Codespaces offers free hours per month - usually sufficient for individual use.
+Check [GitHub's pricing](https://github.com/features/codespaces) for details.
 
 **Need help?**  
-Check adventure-specific docs, [open an issue](https://github.com/dynatrace-oss/open-ecosystem-challenges/issues), or start a [discussion](https://community.open-ecosystem.com/c/challenges).
+Check adventure-specific docs, [open an issue](https://github.com/dynatrace-oss/open-ecosystem-challenges/issues), or
+start a [discussion](https://community.open-ecosystem.com/c/challenges).
 
 ## 🚀 Ready to Start?
 

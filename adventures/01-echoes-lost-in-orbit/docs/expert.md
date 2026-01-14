@@ -16,6 +16,14 @@ Wednesday, 14 January 2026 at 09:00 CET
 > ℹ️ You can still complete the challenge after this date, but points will only be awarded for submissions before the
 > deadline.
 
+## 📝 Solution Walkthrough
+
+> ⚠️ **Spoiler Alert:** The following walkthrough contains the full solution to the challenge. We encourage you to try
+> solving it on your own first. Consider coming back here only if you get stuck or want to check your approach.
+
+Need help deploying HotROD? Follow
+the [step-by-step solution walkthrough](./solutions/expert.md) to level up your progressive delivery skills!
+
 ## 💬 Join the discussion
 
 Share your solutions and questions in

@@ -67,7 +67,7 @@ spec:
           - CreateNamespace=true
 ```
 
-Now let's work through each objective!
+Now let's work through each objective.
 
 ## 🎯 Step 3: Clear Objectives
 
