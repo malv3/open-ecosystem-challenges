@@ -16,7 +16,10 @@ resource "google_storage_bucket" "tfstate" {
 
   # TODO: should we enable versioning? sounds important for state files but
   #       wasn't sure how to do it... look into this later maybe
-
+  versioning {
+    enabled = true
+  }
+  
   # Uniform bucket-level access for simplified permissions
   uniform_bucket_level_access = true
 

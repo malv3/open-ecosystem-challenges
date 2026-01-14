@@ -18,7 +18,7 @@ resource "google_sql_database_instance" "merchant_audit" {
   lifecycle {
     # OpenTofu 1.11+ 🎉
     # https://opentofu.org/docs/v1.11/language/meta-arguments/enabled/
-    enabled = var.districts > 1
+    enabled = length(var.districts) > 1
   }
 
   name             = "cloudhaven-merchant-audit"
