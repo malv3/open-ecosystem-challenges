@@ -49,34 +49,20 @@ Your mission: Complete the OpenTofu configuration and establish proper state man
 
 [**Start the Beginner Challenge**](./beginner.md){ .md-button .md-button--primary }
 
-### 🟡 Intermediate: The Living Infrastructure
+### 🟡 Intermediate: The Modular Metropolis
 
-**Status:** 🚧 Coming on January 19, 2026  
-**Topics:** [Crossplane](https://www.crossplane.io/), Managed Resources, Drift Detection
+**Status:** ✅ Available  
+**Topics:** [OpenTofu](https://opentofu.org/), Modules, Testing, Input Validation
 
-The Merchant's Quarter infrastructure is now running, but the Guild Master isn't happy. Every change still requires
-someone to be executed manually. There's no proper audit trail, and the infrastructure drifts when people make
-manual changes outside of code.
+CloudHaven is thriving after you fixed the Foundation Stones! The city has grown to three districts, and the Guild 
+decided to refactor the infrastructure into reusable modules. A senior engineer started the work using Test-Driven 
+Development — writing tests first, then implementing. But they were called away before finishing, leaving behind 
+working tests... and buggy code that doesn't match them.
 
-The Guild has decided to adopt Crossplane, a Kubernetes-native tool that manages infrastructure declaratively with
-built-in drift detection and automatic reconciliation. They want to migrate the Merchant's Quarter services — including
-the storage vault and the ledger database — to Crossplane, and model the dependencies between them.
+Your mission: Fix the bugs, complete the integration test, and deploy the infrastructure.
 
-Your mission: Migrate from imperative OpenTofu to declarative Crossplane, model the bucket–database relationship, and
-leverage Kubernetes-native reconciliation to keep infrastructure in the desired state.
+[**Start the Intermediate Challenge**](./intermediate.md){ .md-button .md-button--primary }
 
 ### 🔴 Expert: The Self-Service Citadel
 
 **Status:** 🚧 Coming on January 26, 2026  
-**Topics:** Policies & Governance, [Crossplane](https://www.crossplane.io/), Policy-as-Code with [Kyverno](https://kyverno.io/)
-
-Word of your automated infrastructure success has spread throughout CloudHaven. Now, every quarter wants their own
-services, and requests are pouring in. The Guild Council is getting worried: some vaults are being created in expensive
-regions, some databases lack encryption, and a few requests ignore naming and labeling conventions.
-
-The Council decrees that no new infrastructure may be created without proper guardrails. Crossplane is already managing
-the infrastructure, and a GitOps engine like Argo CD may be syncing manifests from Git, but the policy engine is
-incomplete and not enforcing the Guild’s rules.
-
-Your mission: Implement and fix policies that govern how infrastructure is created — ensuring only compliant
-Crossplane-managed resources are admitted, while valid configurations continue to work as expected.

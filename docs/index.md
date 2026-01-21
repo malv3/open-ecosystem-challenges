@@ -25,12 +25,11 @@ Browse the available adventures and pick one that interests you:
 **Story:** Join the Infrastructure Guild and modernize CloudHaven's infrastructure from manual provisioning to a
 self-service platform using Infrastructure as Code.
 
-| Level           | Name                  | 🧠 Key Learnings                                                                                                                                |
-|-----------------|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| 🟢 Beginner     | The Foundation Stones | <ul><li>Infrastructure as Code with OpenTofu</li><li>Remote state management with GCS backend</li><li>Dynamic & conditional resources</li></ul> |
-| 🟡 Intermediate | *Coming Soon*         |                                                                                                                                                 |
-| 🔴 Expert       | *Coming Soon*         |                                                                                                                                                 |
-
+| Level           | Name                   | 🧠 Key Learnings                                                                                                                                |
+|-----------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| 🟢 Beginner     | The Foundation Stones  | <ul><li>Infrastructure as Code with OpenTofu</li><li>Remote state management with GCS backend</li><li>Dynamic & conditional resources</li></ul> |
+| 🟡 Intermediate | The Modular Metropolis | <ul><li>OpenTofu module testing with `tofu test`</li><li>Test-Driven Development (TDD) workflow</li><li>Input validation with regex</li></ul>   |
+| 🔴 Expert       | *Coming Soon*          |                                                                                                                                                 |
 
 ### December 2025: [Echoes Lost in Orbit](01-echoes-lost-in-orbit/index.md)
 

@@ -7,11 +7,21 @@ on:
         required: true
         type: choice
         options:
+          - '🌆 Adventure 02 | 🟡 Intermediate (The Modular Metropolis)'
           - '🌆 Adventure 02 | 🟢 Beginner (The Foundation Stones)'
           - 'Adventure 01 | 🔴 Expert (Hyperspace Operations and Transport)'
           - 'Adventure 01 | 🟡 Intermediate (The Silent Canary)'
           - 'Adventure 01 | 🟢 Beginner (Broken Echoes)'
 jobs:
+  adventure02-intermediate:
+    name: '🌆 Adventure 02 | 🟡 Intermediate (The Modular Metropolis)'
+    if: ${{ inputs.challenge == '🌆 Adventure 02 | 🟡 Intermediate (The Modular Metropolis)' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dynatrace-oss/open-ecosystem-challenge-verifier@main
+        with:
+          challenge: '02-building-cloudhaven_intermediate'
   adventure02-beginner:
     name: '🌆 Adventure 02 | 🟢 Beginner (The Foundation Stones)'
     if: ${{ inputs.challenge == '🌆 Adventure 02 | 🟢 Beginner (The Foundation Stones)' }}
