@@ -22,7 +22,7 @@ Wednesday, 4 February 2026 at 23:59 CET
 ## 💬 Join the discussion
 
 Share your solutions and questions in
-the [challenge thread](TODO)
+the [challenge thread](https://community.open-ecosystem.com/t/adventure-02-building-cloudhaven-expert-the-guardian-protocols/782)
 in the Open Ecosystem Community.
 
 ## 🎯 Objective
