@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
 # Use a minimal Jaeger setup instead of deploying it via the operator to keep the Codespace lightweight and focused.
 
 echo "✨ Adding Jaeger Helm repo"
@@ -14,11 +16,11 @@ echo "✨ Installing Jaeger via Helm"
 helm install jaeger jaegertracing/jaeger \
   --version 4.1.5 \
   --namespace jaeger \
-  --values lib/jaeger/values.yaml \
+  --values "$SCRIPT_DIR/values.yaml" \
   --wait \
   --timeout 5m
 
 echo "✨ Deploy service"
-kubectl -n jaeger apply -f lib/jaeger/manifests/service.yaml
+kubectl -n jaeger apply -f "$SCRIPT_DIR/manifests/service.yaml"
 
 echo "✅ Jaeger is ready"

@@ -1,0 +1,5 @@
+site_name: '🔭 03: The AI Observatory'
+
+nav:
+  - Introduction: index.md
+  - '🟢 Beginner': beginner.md

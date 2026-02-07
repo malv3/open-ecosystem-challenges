@@ -125,3 +125,48 @@ print_test_summary() {
   print_new_line
   print_info "See $DOCS_URL for details"
 }
+
+# Verification summary tailored for local-only verification
+# Behavior:
+# - Always reports pass/fail based on TESTS_* counters
+# - If passed and HEAD is pushed: print a copy-paste instruction message
+# - If passed and not pushed: instruct user to commit & push, then rerun
+# - If failed: print objective and docs URL
+print_verification_summary() {
+  local level=$1
+  local docs_url=$2
+  local objective=$3
+
+  print_header "Test Results Summary"
+
+  if [[ $TESTS_FAILED -eq 0 ]]; then
+    print_success "✅ PASSED: All $TESTS_PASSED checks passed"
+    print_new_line
+
+    # Determine push status (do not fail the test if not pushed)
+    local pushed="no"
+    if command -v git_is_head_pushed >/dev/null 2>&1 && git_is_head_pushed; then
+      pushed="yes"
+    fi
+
+    if [[ "$pushed" == "yes" ]]; then
+      gum style --bold "📎 Copy & Paste"
+      print_info "Your verification passed and changes are pushed. Copy the certificate from the next step and paste it into the Open Ecosystem."
+      print_new_line
+    else
+      gum style --bold "📝 Next Steps"
+      print_info "Looks great! Before you can submit, please commit and push all changes, then run the verification again."
+      print_info_indent "git add . && git commit -m 'Complete verification' && git push"
+      print_new_line
+    fi
+    return
+  fi
+
+  # test failed
+  print_error "❌ FAILED: $TESTS_FAILED check(s) failed, $TESTS_PASSED passed"
+  print_new_line
+  gum style --bold "🎯 Challenge Objective:"
+  print_info "$objective"
+  print_new_line
+  print_info "See $docs_url for details"
+}

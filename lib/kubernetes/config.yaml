@@ -18,3 +18,16 @@ nodes:
   - hostPort: 30103
     containerPort: 30103
     protocol: TCP
+    # Skipping port 30104 because the GCP API is not running inside the cluster
+    # Ollama
+  - hostPort: 30105
+    containerPort: 30105
+    protocol: TCP
+    # OTel Collector gRPC
+  - hostPort: 30106
+    containerPort: 30106
+    protocol: TCP
+    # OTel Collector HTTP
+  - hostPort: 30107
+    containerPort: 30107
+    protocol: TCP

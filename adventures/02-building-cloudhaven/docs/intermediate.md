@@ -8,7 +8,7 @@ infrastructure.
 
 ## ⏰ Deadline
 
-Sunday, 1 February 2026 at 23:59 CET
+Wednesday, 4 February 2026 at 23:59 CET
 
 > ℹ️ You can still complete the challenge after this date, but points will only be awarded for submissions before the
 > deadline.
@@ -16,7 +16,7 @@ Sunday, 1 February 2026 at 23:59 CET
 ## 💬 Join the discussion
 
 Share your solutions and questions in
-the [challenge thread](TODO)
+the [challenge thread](https://community.open-ecosystem.com/t/adventure-02-building-cloudhaven-intermediate-the-modular-metropolis)
 in the Open Ecosystem Community.
 
 ## 🎯 Objective
@@ -136,7 +136,7 @@ For comprehensive validation and to officially claim completion:
 
 1. **Commit and push your changes** to your fork
 2. **Manually trigger the verification workflow** on GitHub Actions
-3. **Share your success** with the [community](TODO)
+3. **Share your success** with the [community](https://community.open-ecosystem.com/t/adventure-02-building-cloudhaven-intermediate-the-modular-metropolis)
 
 > 📖 **Need detailed verification instructions?** Check out the [Verification Guide](../../verification) for
 > step-by-step instructions on both smoke tests and GitHub Actions workflows.

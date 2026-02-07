@@ -2,9 +2,9 @@
 
 Welcome to the second adventure in the **Open Ecosystem Challenge** series!  
 Your mission: modernize CloudHaven's infrastructure from manual provisioning to a self-service platform.  
-This is a hands-on journey through **OpenTofu**, **Crossplane**, and **Platform Engineering**.
+This is a hands-on journey through infrastructure as code with **OpenTofu** and **GitHub Actions**.
 
-The entire **infrastructure is pre-provisioned in your Codespace** — OpenTofu, a Kubernetes cluster, Crossplane, and
+The entire **infrastructure is pre-provisioned in your Codespace** — OpenTofu and
 mock cloud services are ready to go when you need them.
 **You don't need to set up anything locally. Just focus on solving the problem.**
 
@@ -22,9 +22,7 @@ infrastructure services.
 The Guild used to provision everything manually through cloud consoles — a process that was slow, error-prone, and
 impossible to track. Recently, they've started adopting Infrastructure as Code, but the transition is incomplete.
 
-The Guild Master has assigned you to complete the modernization journey: from basic service provisioning with OpenTofu,
-through automated service management with Crossplane, to building a self-service platform where districts can request
-what they need without waiting for the Guild.
+The Guild Master has assigned you to complete the modernization journey.
 
 **Your mission: Build the services and tools that will support CloudHaven's future growth.**
 
@@ -63,6 +61,13 @@ Your mission: Fix the bugs, complete the integration test, and deploy the infras
 
 [**Start the Intermediate Challenge**](./intermediate.md){ .md-button .md-button--primary }
 
-### 🔴 Expert: The Self-Service Citadel
+### 🔴 Expert: The Guardian Protocols
 
-**Status:** 🚧 Coming on January 26, 2026  
+**Status:** ✅ Available  
+**Topics:** GitHub Actions, OpenTofu Plan/Apply, Security Scanning (Trivy)
+
+CloudHaven needs automated guardians: workflows that detect infrastructure drift, validate pull requests with plans,
+integration tests, and security scans, and then apply safe changes. A previous engineer started the setup but left it
+incomplete. Your mission: bring the Guardian Protocols online.
+
+[**Start the Expert Challenge**](./expert.md){ .md-button .md-button--primary }

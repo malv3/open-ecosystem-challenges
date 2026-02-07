@@ -95,20 +95,13 @@ track_smoketest_completed() {
   )"
 }
 
-# -----------------------------------------------------------------------------
-# Event: verification.completed
-# Send when GitHub Actions verification finishes
-# Usage: track_verification_completed "success" '["check1"]' "12345678"
-# -----------------------------------------------------------------------------
 track_verification_completed() {
   local status=$1
   local failed_checks=${2:-"[]"}
-  local workflow_run_id=${3:-""}
 
   send_event "verification.completed" "$(jq -n \
     --arg status "$status" \
     --argjson failed_checks "$failed_checks" \
-    --arg workflow_run_id "$workflow_run_id" \
-    '{status: $status, failed_checks: $failed_checks, "workflow.run_id": $workflow_run_id}'
+    '{status: $status, failed_checks: $failed_checks}'
   )"
 }

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
 help() {
   echo "Usage: $0 [OPTIONS]"
   echo "Options:"
@@ -29,7 +31,7 @@ done
 
 echo "✨ Installing Argo CD"
 kubectl create namespace argocd
-kubectl apply -k lib/argocd/manifests
+kubectl apply -k "$SCRIPT_DIR/manifests"
 
 echo "✨ Installing Argo CD CLI"
 curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/v3.2.0/argocd-linux-amd64

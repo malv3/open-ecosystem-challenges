@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
 # Use a minimal Prometheus setup instead of kube-prometheus-stack to keep the Codespace lightweight and focused.
 
 echo "✨ Adding prometheus-community Helm repo"
@@ -13,7 +15,7 @@ kubectl create namespace prometheus
 echo "✨ Installing Prometheus via Helm"
 helm install prometheus prometheus-community/prometheus \
   --namespace prometheus \
-  --values lib/prometheus/values.yaml \
+  --values "$SCRIPT_DIR/values.yaml" \
   --wait \
   --timeout 5m
 

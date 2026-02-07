@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
 echo "✨ Installing Kind"
 curl -sS https://webi.sh/kind@v0.30.0 | sh
 
@@ -23,7 +25,7 @@ sudo mv linux-amd64/helm /usr/local/bin/helm
 rm -rf linux-amd64 helm-v4.0.1-linux-amd64.tar.gz
 
 echo "✨ Starting Kind cluster"
-kind create cluster --config lib/kubernetes/config.yaml --wait 300s
+kind create cluster --config "$SCRIPT_DIR/config.yaml" --wait 300s
 kubectl cluster-info
 
 echo "✅ Kubernetes cluster is ready"
