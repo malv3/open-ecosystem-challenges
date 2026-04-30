@@ -19,37 +19,36 @@ FLAGS_FILE="$SCRIPT_DIR/flags.json"
 
 print_header \
   'Adventure 00: Blind by Design' \
-  'Level 1: Stand up the lab' \
-  'Smoke Test Verification'
+  '🟢 Beginner: Stand up the lab' \
+  'Verification'
 
-check_prerequisites curl jq
-
-print_sub_header "Running smoke tests..."
-
-# Track test results across all checks
+# Init test counters
 TESTS_PASSED=0
 TESTS_FAILED=0
 FAILED_CHECKS=()
 
-# 1. The Spring Boot lab is reachable on :8080.
+check_prerequisites curl jq
+
+print_sub_header "Running verification checks..."
+
+# 1. The Spring Boot lab is reachable on :8080 and returns OpenFeature
+#    evaluation details for the vision_state flag. test_http_endpoint
+#    handles the connection failure / unexpected-content cases for us.
 print_test_section "Checking the lab is reachable on $APP_URL..."
-RESPONSE=$(curl -sS --max-time 5 "$APP_URL" 2>/dev/null || echo "")
-
-if [[ -z "$RESPONSE" ]]; then
-  print_error_indent "Lab did not respond on $APP_URL"
-  print_hint "Start the app with: ./mvnw spring-boot:run"
-  TESTS_FAILED=$((TESTS_FAILED + 1))
-  FAILED_CHECKS+=("lab_unreachable")
-  print_test_summary "stand up the lab" "$DOCS_URL" "$OBJECTIVE"
-  exit
+if ! test_http_endpoint "$APP_URL" "vision_state" \
+  "Start the app with: ./mvnw spring-boot:run, then make sure Trial returns a FlagEvaluationDetails for 'vision_state'."; then
+  FAILED_CHECKS+=("vision_state_endpoint")
+  print_verification_summary "stand up the lab" "$DOCS_URL" "$OBJECTIVE"
+  exit 1
 fi
-print_success_indent "Lab responded on $APP_URL"
-TESTS_PASSED=$((TESTS_PASSED + 1))
+print_new_line
 
-# 2. Response is FlagEvaluationDetails JSON containing flag_key="vision_state".
+# Cache the response once we know it's good — the remaining checks reuse it.
+RESPONSE=$(curl -s --max-time 5 "$APP_URL" 2>/dev/null || echo "")
+
+# 2. Response carries flagKey=vision_state (more precise than the substring check).
 print_test_section "Checking the response is an OpenFeature evaluation for 'vision_state'..."
 FLAG_KEY=$(echo "$RESPONSE" | jq -r '.flagKey // .flag_key // empty' 2>/dev/null || echo "")
-
 if [[ "$FLAG_KEY" != "vision_state" ]]; then
   print_error_indent "Response did not include 'flagKey':'vision_state'"
   print_info_indent "Actual response: $RESPONSE"
@@ -60,6 +59,7 @@ else
   print_success_indent "Response carries OpenFeature evaluation details for 'vision_state'"
   TESTS_PASSED=$((TESTS_PASSED + 1))
 fi
+print_new_line
 
 # 3. The resolved value is NOT the literal "untreated" fallback.
 print_test_section "Checking the value is resolved from a provider, not the hard-coded fallback..."
@@ -80,6 +80,7 @@ else
   print_success_indent "Resolved value '$VALUE' (reason=$REASON)"
   TESTS_PASSED=$((TESTS_PASSED + 1))
 fi
+print_new_line
 
 # 4. flags.json is hot-reloaded: flip defaultVariant and confirm the response changes.
 print_test_section "Checking that flags.json drives the response (hot-reload swap)..."
@@ -95,7 +96,6 @@ else
     TESTS_FAILED=$((TESTS_FAILED + 1))
     FAILED_CHECKS+=("flags_json_invalid")
   else
-    # Pick a different variant from the file.
     OTHER_VARIANT=$(jq -r --arg cur "$ORIGINAL_VARIANT" '.flags.vision_state.variants | keys[] | select(. != $cur)' "$FLAGS_FILE" | head -n1)
     if [[ -z "$OTHER_VARIANT" ]]; then
       print_error_indent "flags.json only defines a single variant; need at least two for the swap test."
@@ -105,14 +105,11 @@ else
     else
       BACKUP="$(mktemp)"
       cp "$FLAGS_FILE" "$BACKUP"
-      # Restore on any exit path.
       trap 'cp "$BACKUP" "$FLAGS_FILE" 2>/dev/null || true; rm -f "$BACKUP"' EXIT
 
-      # Capture the current value, then swap.
       BEFORE_VALUE=$(curl -sS --max-time 5 "$APP_URL" | jq -r '.value // empty')
       jq --arg v "$OTHER_VARIANT" '.flags.vision_state.defaultVariant = $v' "$FLAGS_FILE" > "$FLAGS_FILE.tmp" && mv "$FLAGS_FILE.tmp" "$FLAGS_FILE"
 
-      # Wait up to ~5s for the file watcher to pick up the change.
       AFTER_VALUE="$BEFORE_VALUE"
       for _ in 1 2 3 4 5; do
         sleep 1
@@ -122,7 +119,6 @@ else
         fi
       done
 
-      # Restore.
       cp "$BACKUP" "$FLAGS_FILE"
       rm -f "$BACKUP"
       trap - EXIT
@@ -139,5 +135,28 @@ else
     fi
   fi
 fi
+print_new_line
 
-print_test_summary "stand up the lab" "$DOCS_URL" "$OBJECTIVE"
+# =============================================================================
+# Summary & Next Steps
+# =============================================================================
+failed_checks_json="[]"
+if [[ -n "${FAILED_CHECKS[*]:-}" ]]; then
+  failed_checks_json=$(printf '%s\n' "${FAILED_CHECKS[@]}" | jq -R . | jq -s .)
+fi
+
+if [[ $TESTS_FAILED -gt 0 ]]; then
+  track_verification_completed "failed" "$failed_checks_json"
+  print_verification_summary "stand up the lab" "$DOCS_URL" "$OBJECTIVE"
+  exit 1
+fi
+
+track_verification_completed "success" "$failed_checks_json"
+
+print_header "Test Results Summary"
+print_success "✅ PASSED: All $TESTS_PASSED verification checks passed!"
+print_new_line
+
+if command -v check_submission_readiness >/dev/null 2>&1; then
+  check_submission_readiness "00-blind-by-design" "beginner"
+fi

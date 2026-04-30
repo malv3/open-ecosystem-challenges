@@ -5,7 +5,3 @@ nav:
   - '🟢 Beginner': beginner.md
   - '🟡 Intermediate': intermediate.md
   - '🔴 Expert': expert.md
-  - 'Solutions':
-      - '🟢 Beginner': solutions/beginner.md
-      - '🟡 Intermediate': solutions/intermediate.md
-      - '🔴 Expert': solutions/expert.md

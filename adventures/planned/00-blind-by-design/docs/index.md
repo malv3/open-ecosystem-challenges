@@ -4,7 +4,7 @@ Three levels of OpenFeature with **flagd** as the provider, in a Java + Spring B
 
 The entire **infrastructure is pre-provisioned in your Codespace** — no local setup required.
 
-## 🪐 The Backstory
+## 🧠 What you'll be using
 
 OpenFeature is a vendor-neutral standard for feature flags. The reference cloud-native implementation is **flagd** — it serves flag definitions from a JSON file, locally or remotely, and the OpenFeature SDK in your application calls it on every evaluation.
 
@@ -41,7 +41,7 @@ Finish wiring OpenTelemetry through to the Grafana LGTM stack, write a `ContextS
 
 [**Start the Expert Challenge**](./expert.md){ .md-button .md-button--primary }
 
-## 🧪 The story (optional)
+## 🪐 The Backstory
 
 A research lab is testing a vision-enhancement serum on volunteers. The **lab** is a Spring Boot service. **OpenFeature** is the chart system. The protocol the lab is following is fixed; what differs per subject is the **`vision_state`** the lab records — `blurry`, `sharp`, `enhanced`, or `clouded` — because subjects don't all arrive with the same biology, the same dose adherence, or the same trial-jurisdiction baseline.
 

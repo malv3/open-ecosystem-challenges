@@ -25,7 +25,7 @@ services:
       - FLAGD_PORT=8013
 
   flagd:
-    image: ghcr.io/open-feature/flagd:latest
+    image: ghcr.io/open-feature/flagd:v0.15.4
     container_name: side-effects-beginner-flagd
     volumes:
       - ../..:/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}:ro
@@ -33,8 +33,7 @@ services:
       - start
       - --uri
       - file:/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}/adventures/planned/00-blind-by-design/beginner/flags.json
-    ports:
-      - "8013:8013"
-      - "8014:8014"
-      - "8015:8015"
-      - "8016:8016"
+    # No `ports:` block — the lab reaches flagd on the docker-internal
+    # network as `flagd:8013`. We deliberately do not publish to the host:
+    # only :8080 is forwarded into the Codespace, so participants see one
+    # port to click in the Ports tab.
