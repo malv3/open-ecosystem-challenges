@@ -2,7 +2,7 @@
 
 Wire the OpenFeature Java SDK and the flagd contrib provider into a Spring Boot service so flag evaluations are resolved by a flagd sidecar against a `flags.json` file. Author your first flag, then prove that editing `flags.json` flips the response on the **next** request — no app restart, no flagd restart, no redeploy.
 
-The Spring Boot service is already running on `:8080`; a flagd container is already running on `:8013`; `flags.json` is an empty skeleton (`{"flags": {}}`). The SDK is **not** wired in yet — that's your job.
+The Spring Boot service runs on `:8080`; a flagd container is already running on `:8013`; `flags.json` is an empty skeleton (`{"flags": {}}`). The SDK is **not** wired in yet — that's your job.
 
 ## 🪐 The Backstory
 
@@ -82,7 +82,7 @@ Before you open the forwarded port, start the Spring Boot lab so it is actually 
 
 The lab boots in the broken state — `Trial` returns the hard-coded `"untreated"` literal — and that is exactly the starting point you want.
 
-### 3. Access the UIs
+### 3. Access the UI
 
 Open the **Ports** tab in the bottom panel. You should see:
 
@@ -150,27 +150,3 @@ The script will tell you which checks failed. Fix the issues and run it again.
 2. Follow the on-screen instructions to commit your changes if needed.
 3. Once everything is ready, the script will generate a **Certificate of Completion**.
 4. **Copy this certificate** and paste it into the [challenge thread](https://community.open-ecosystem.com/c/open-ecosystem-challenges/) to claim your victory! 🏆
-
-## ✅ Verification
-
-A passing run looks roughly like this:
-
-```text
-✅ PASSED: All 4 checks passed
-
-It looks like you successfully completed this level! 🌟
-```
-
-```json
-{
-  "flagKey": "vision_state",
-  "value": "blurry",
-  "variant": "blurry",
-  "reason": "STATIC",
-  "errorCode": null,
-  "errorMessage": null,
-  "flagMetadata": {}
-}
-```
-
-If you see `"value": "blurry"` (or `"clouded"`) and `"flagKey": "vision_state"`, you're ready for the 🟡 Intermediate level — **Outcome by cohort**.
