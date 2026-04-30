@@ -185,7 +185,7 @@ The order matters less than you'd think — Spring will pick up `OpenFeatureConf
 
 ```bash
 cd adventures/planned/00-blind-by-design/intermediate
-./run-germany.sh   # COUNTRY=de — exercises the country-targeting branch
+./run-germany.sh   # COUNTRY=de — exercises the country-targeting branch  (or `make lab-germany`)
 ```
 
 `./run-austria.sh` (`COUNTRY=at`) ships alongside it for the no-targeting case. Three named launch configs in `.vscode/launch.json` (Germany / Austria / No country) give you one-click cohort switching from the **Run and Debug** view.
