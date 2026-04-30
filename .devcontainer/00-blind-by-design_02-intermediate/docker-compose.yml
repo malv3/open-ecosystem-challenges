@@ -26,7 +26,7 @@ services:
       - COUNTRY=de
 
   flagd:
-    image: ghcr.io/open-feature/flagd:latest
+    image: ghcr.io/open-feature/flagd:v0.15.4
     container_name: side-effects-intermediate-flagd
     volumes:
       - ../..:/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}:ro
@@ -34,8 +34,5 @@ services:
       - start
       - --uri
       - file:/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}/adventures/planned/00-blind-by-design/intermediate/flags.json
-    ports:
-      - "8013:8013"
-      - "8014:8014"
-      - "8015:8015"
-      - "8016:8016"
+    # No `ports:` block — the lab reaches flagd on the docker-internal
+    # network as `flagd:8013`. Only :8080 is forwarded into the Codespace.

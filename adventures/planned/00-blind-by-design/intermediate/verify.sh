@@ -51,16 +51,13 @@ done
 print_sub_header "Running verification checks..."
 
 # -----------------------------------------------------------------------------
-# 1. App reachable on :8080
+# 1. App reachable on :8080 and serving an OpenFeature evaluation. Lean on
+#    test_http_endpoint from lib/scripts/http.sh — it handles the connection
+#    failure / unexpected-content cases for us.
 # -----------------------------------------------------------------------------
 print_test_section "Checking the lab is reachable on :8080..."
-if curl -s --max-time 5 "http://localhost:8080/" >/dev/null 2>&1; then
-  print_success_indent "App is reachable at http://localhost:8080/"
-  TESTS_PASSED=$((TESTS_PASSED + 1))
-else
-  print_error_indent "App not reachable at http://localhost:8080/"
-  print_hint "Start the lab with: ./run-germany.sh   (or COUNTRY=de ./mvnw spring-boot:run | tee app.log)"
-  TESTS_FAILED=$((TESTS_FAILED + 1))
+if ! test_http_endpoint "http://localhost:8080/" "vision_state" \
+  "Start the lab with: ./run-germany.sh   (or COUNTRY=de ./mvnw spring-boot:run | tee app.log)"; then
   FAILED_CHECKS+=("app_reachable")
 fi
 print_new_line

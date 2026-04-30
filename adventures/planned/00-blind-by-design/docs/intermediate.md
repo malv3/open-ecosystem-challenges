@@ -9,7 +9,7 @@ Populate all three OpenFeature evaluation-context layers on a Spring Boot servic
 
 The broken-state lab already has the SDK and flagd provider wired in `Resolver.RPC` mode. The targeting in `flags.json` already carries three branches — `species == zyklop`, improper-`dose` for non-zyklops, `country == de` — but none of those attributes are in the eval context yet, so every request lands on the default variant. Your job is to make the targeting fire by wiring the three context layers and the audit hook.
 
-## 🧪 The story (optional)
+## 🪐 The Backstory
 
 The trial is widening. Subjects from outside the lab's local population are getting the wrong reading on their chart, and the lab director has just walked into the lab holding a stack of complaint forms. She wants the audit log to tell her, after the fact, exactly which `vision_state` the lab recorded for which subject — and she wants the lab to read the chart properly before it records any more bad readings.
 
@@ -73,8 +73,6 @@ By the end of this level, you should have:
   The transaction layer needs a **`ThreadLocalTransactionContextPropagator`** registered once on `OpenFeatureAPI` at startup — without it, the SDK has no way to carry per-request context across the call into the controller, and the transaction context silently stays empty.
 - **`targetingKey`** — a special slot on the eval context that flag implementations use as the bucketing key for fractional rollouts. The SDK exposes it via `ec.getTargetingKey()` rather than `ec.getValue("targetingKey")`; the `ImmutableContext(targetingKey, attributes)` constructor sets it explicitly. In real apps it's typically a stable user id — i.e. the canonical PII identifier you do **not** want flowing into audit logs.
 - **`Hook`** — interceptor for flag evaluations. `before`/`after`/`error`/`finallyAfter` fire around every `client.getXxxDetails(...)`. `HookContext.getCtx()` exposes the **merged** context — that's what makes an audit trail useful instead of a "got here" log line.
-
-For an end-to-end summary of how the three layers fit together once the level is solved, see [solutions/intermediate.md → Why This Layout Works](./solutions/intermediate.md#-why-this-layout-works).
 
 ## 🧠 What You'll Learn
 
@@ -224,12 +222,21 @@ grep '\[AUDIT\]' app.log | head
 
 You should see one `[AUDIT] flag=vision_state variant=… reason=… species=… country=… dose=…` line per `curl` call. `clouded` outcomes log at `WARN` with the "improper dosing or off-protocol cohort, follow-up required" suffix.
 
-### 6. Run the Verification Script
+### 6. Verify Your Solution
+
+Once you think you've solved the challenge, run the verification script:
 
 ```bash
-adventures/planned/00-blind-by-design/intermediate/verify.sh
+./verify.sh
 ```
 
-The script checks that the app is reachable, the zyklop and German cohorts return the right values, and the log file contains audit-hook lines.
+**If the verification fails:**
 
-> 🧪 **Spoiler ahead?** A full walkthrough lives in [solutions/intermediate.md](./solutions/intermediate.md). Try it on your own first — the cohorts will thank you.
+The script will tell you which checks failed. Fix the issues and run it again.
+
+**If the verification passes:**
+
+1. The script will check if your changes are committed and pushed.
+2. Follow the on-screen instructions to commit your changes if needed.
+3. Once everything is ready, the script will generate a **Certificate of Completion**.
+4. **Copy this certificate** and paste it into the [challenge thread](https://community.open-ecosystem.com/c/open-ecosystem-challenges/) to claim your victory! 🏆
