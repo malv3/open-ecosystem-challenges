@@ -1,0 +1,5 @@
+site_name: '🧪  00: Blind by Design'
+
+nav:
+  - Introduction: index.md
+  - '🟢 Beginner': beginner.md
