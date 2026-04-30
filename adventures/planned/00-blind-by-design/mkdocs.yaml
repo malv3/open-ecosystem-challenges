@@ -3,5 +3,3 @@ site_name: '🧪  00: Blind by Design'
 nav:
   - Introduction: index.md
   - '🟢 Beginner': beginner.md
-  - '🟡 Intermediate': intermediate.md
-  - '🔴 Expert': expert.md
