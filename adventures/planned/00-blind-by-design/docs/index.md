@@ -12,7 +12,7 @@ In this adventure, the lab uses OpenFeature exactly the way a real engineering t
 
 ## 🎮 Choose Your Level
 
-Each level is a standalone challenge with its own Codespace that builds on the story while being technically independent — pick your level and start wherever you feel comfortable.
+Each level is a standalone challenge with its own Codespace, building on the story while staying technically independent. The Beginner level is below; Intermediate and Expert land in follow-up PRs.
 
 ### 🟢 Beginner: Stand up the lab
 
@@ -22,24 +22,6 @@ Each level is a standalone challenge with its own Codespace that builds on the s
 Wire OpenFeature into a Spring Boot service so the lab's `vision_state` reading is resolved by a flagd sidecar against a `flags.json` instead of a hard-coded literal.
 
 [**Start the Beginner Challenge**](./beginner.md){ .md-button .md-button--primary }
-
-### 🟡 Intermediate: Outcome by cohort
-
-- **Status:** 🚧 Coming Soon
-- **Topics:** OpenFeature targeting, transaction context, hooks, Spring `HandlerInterceptor`
-
-Add request-scoped context, a global runtime context, an invocation context at the call site, and an audit hook so the lab records the right reading per subject cohort.
-
-[**Start the Intermediate Challenge**](./intermediate.md){ .md-button .md-button--primary }
-
-### 🔴 Expert: Phase 3 — read the chart
-
-- **Status:** 🚧 Coming Soon
-- **Topics:** OpenTelemetry traces + metrics, custom hooks, Grafana LGTM, fractional rollout, OpenFeature OTel hooks
-
-Finish wiring OpenTelemetry through to the Grafana LGTM stack, write a `ContextSpanHook` that puts the merged eval context onto Tempo spans, find the misbehaving Phase 3 amplifier in the dashboard, and roll it back without redeploying.
-
-[**Start the Expert Challenge**](./expert.md){ .md-button .md-button--primary }
 
 ## 🪐 The Backstory
 
