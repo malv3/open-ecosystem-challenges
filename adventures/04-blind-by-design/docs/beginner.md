@@ -71,7 +71,7 @@ in the Open Ecosystem Community.
 
 The Codespace will install a Java 21 toolchain and resolve the Maven dependencies. Once it is ready you'll have a
 terminal in
-`adventures/planned/04-blind-by-design/beginner/`.
+`adventures/04-blind-by-design/beginner/`.
 
 ### 2. Start the Lab
 

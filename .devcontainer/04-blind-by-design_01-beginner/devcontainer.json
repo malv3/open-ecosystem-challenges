@@ -2,7 +2,7 @@
   "name": "🧪 Adventure 04 | 🟢 Beginner (Stand up the lab)",
   "dockerComposeFile": "docker-compose.yml",
   "service": "workspace",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/adventures/planned/04-blind-by-design/beginner",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/adventures/04-blind-by-design/beginner",
   "postCreateCommand": "bash /workspaces/${localWorkspaceFolderBasename}/.devcontainer/04-blind-by-design_01-beginner/post-create.sh",
   "postStartCommand": "bash /workspaces/${localWorkspaceFolderBasename}/.devcontainer/04-blind-by-design_01-beginner/post-start.sh",
   "customizations": {
@@ -16,9 +16,9 @@
     },
     "codespaces": {
       "openFiles": [
-        "adventures/planned/04-blind-by-design/docs/beginner.md",
-        "adventures/planned/04-blind-by-design/beginner/src/main/java/dev/openfeature/demo/java/demo/Trial.java",
-        "adventures/planned/04-blind-by-design/beginner/flags.json"
+        "adventures/04-blind-by-design/docs/beginner.md",
+        "adventures/04-blind-by-design/beginner/src/main/java/dev/openfeature/demo/java/demo/Trial.java",
+        "adventures/04-blind-by-design/beginner/flags.json"
       ]
     }
   },
