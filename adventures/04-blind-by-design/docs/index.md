@@ -1,4 +1,4 @@
-# 🧪 Adventure 00: Blind by Design
+# 🧪 Adventure 04: Blind by Design
 
 Three levels of OpenFeature with **flagd** as the provider, in a Java + Spring Boot service. Wire the SDK against a flagd sidecar (Beginner), layer evaluation context to target by cohort (Intermediate), then instrument flag evaluations with OpenTelemetry and roll back a misbehaving fractional rollout (Expert) — all without redeploying.
 
@@ -29,7 +29,7 @@ Each level is a standalone challenge with its own Codespace, building on the sto
 
 Wire OpenFeature into a Spring Boot service so the lab's `vision_state` reading is resolved by a flagd sidecar against a `flags.json` instead of a hard-coded literal.
 
-[**Start the Beginner Challenge**](./beginner.md){ .md-button .md-button--primary }
+[**Start the Beginner Challenge**](beginner.md){ .md-button .md-button--primary }
 
 ### 🟡 Intermediate: Outcome by cohort
 

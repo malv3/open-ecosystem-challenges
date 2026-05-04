@@ -2,11 +2,11 @@
 set -e
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-CHALLENGE_DIR="$REPO_ROOT/adventures/planned/00-blind-by-design/beginner"
+CHALLENGE_DIR="$REPO_ROOT/adventures/planned/04-blind-by-design/beginner"
 
 cat <<EOF
 
-✨ Adventure 00 — Level 1 (🟢 Beginner): Stand up the lab
+✨ Adventure 04 — Level 1 (🟢 Beginner): Stand up the lab
 
 📂 Challenge directory:
    $CHALLENGE_DIR
@@ -45,7 +45,7 @@ track_codespace_initialized
 # devcontainer.json and the field is sometimes dropped). `code` is the same CLI the
 # editor uses internally and works against either the web or desktop client.
 if command -v code >/dev/null 2>&1; then
-  code "$REPO_ROOT/adventures/planned/00-blind-by-design/docs/beginner.md" \
+  code "$REPO_ROOT/adventures/planned/04-blind-by-design/docs/beginner.md" \
        "$CHALLENGE_DIR/src/main/java/dev/openfeature/demo/java/demo/Trial.java" \
        2>/dev/null || true
 fi

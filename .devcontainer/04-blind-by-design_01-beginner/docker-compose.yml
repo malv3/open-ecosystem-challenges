@@ -32,7 +32,7 @@ services:
     command:
       - start
       - --uri
-      - file:/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}/adventures/planned/00-blind-by-design/beginner/flags.json
+      - file:/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}/adventures/planned/04-blind-by-design/beginner/flags.json
     # No `ports:` block — the lab reaches flagd on the docker-internal
     # network as `flagd:8013`. We deliberately do not publish to the host:
     # only :8080 is forwarded into the Codespace, so participants see one

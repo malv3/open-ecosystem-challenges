@@ -8,17 +8,17 @@ source "$SCRIPT_DIR/../../../../lib/scripts/loader.sh"
 
 OBJECTIVE="By the end of this level, you should:
 
-- See curl http://localhost:8080/ return a vision_state reading resolved from flags.json (not the hard-coded fallback)
-- Confirm the response payload includes the OpenFeature evaluation details (variant, reason, value)
+- Have curl http://localhost:8080/ return a vision_state reading resolved from flags.json (not the hard-coded \"untreated\" fallback)
+- Confirm the response payload includes the OpenFeature evaluation details — flag key, variant, reason, value
 - Edit flags.json to change the defaultVariant, save, and have the next request return the new variant without restarting the app"
 
-DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/00-blind-by-design/beginner"
+DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/04-blind-by-design/beginner"
 
 APP_URL="http://localhost:8080/"
 FLAGS_FILE="$SCRIPT_DIR/flags.json"
 
 print_header \
-  'Adventure 00: Blind by Design' \
+  'Adventure 04: Blind by Design' \
   '🟢 Beginner: Stand up the lab' \
   'Verification'
 
@@ -158,5 +158,5 @@ print_success "✅ PASSED: All $TESTS_PASSED verification checks passed!"
 print_new_line
 
 if command -v check_submission_readiness >/dev/null 2>&1; then
-  check_submission_readiness "00-blind-by-design" "beginner"
+  check_submission_readiness "04-blind-by-design" "beginner"
 fi

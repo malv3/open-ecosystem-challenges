@@ -45,14 +45,16 @@ Your Codespace comes pre-configured with the following tools to help you solve t
 
 ## ⏰ Deadline
 
-_TBD — to be announced at challenge launch._
+Tuesday, 26 May 2026 at 23:59 CET
+
 > ℹ️ You can still complete the challenge after this date, but points will only be awarded for submissions before the
 > deadline.
 
 ## 💬 Join the discussion
 
-Share your solutions and questions in the challenge thread on the Open Ecosystem Community.
-_Discussion link will be added when this adventure goes live._
+Share your solutions and questions in
+the [challenge thread](TODO)
+in the Open Ecosystem Community.
 
 ## ✅ How to Play
 
@@ -61,13 +63,13 @@ _Discussion link will be added when this adventure goes live._
 - Click the "Fork" button in the top-right corner of the GitHub repo or use
   [this link](https://github.com/dynatrace-oss/open-ecosystem-challenges/fork).
 - From your fork, click the green **Code** button → **Codespaces hamburger menu** → **New with options**.
-- Select the **Adventure 00 | 🟢 Beginner (Stand up the lab)** configuration.
+- Select the **Adventure 04 | 🟢 Beginner (Stand up the lab)** configuration.
 
 > ⚠️ **Important:** The challenge will not work if you choose another configuration (or the default).
 
 The Codespace will install a Java 21 toolchain and resolve the Maven dependencies. Once it is ready you'll have a
 terminal in
-`adventures/planned/00-blind-by-design/beginner/`.
+`adventures/planned/04-blind-by-design/beginner/`.
 
 ### 2. Start the Lab
 
