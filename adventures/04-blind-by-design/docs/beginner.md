@@ -4,6 +4,8 @@ Wire the OpenFeature Java SDK and the flagd contrib provider into a Spring Boot 
 
 The Spring Boot service runs on `:8080`; a flagd container is already running on `:8013`; `flags.json` is an empty skeleton (`{"flags": {}}`). The SDK is **not** wired in yet — that's your job.
 
+> 🙌 **Shoutout**: This challenge was created by [Simon Schrottner](https://schrottner.at/) — thank you!
+
 ## 🪐 The Backstory
 
 The lab is on its first shift and it isn't reading the chart. Every subject who walks through the door gets the same hard-coded reading on their record — no matter what the lab director just signed off on. The label coming out of the lab is a literal string baked into the controller, not a reading pulled from the chart.
