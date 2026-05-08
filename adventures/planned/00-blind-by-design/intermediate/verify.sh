@@ -6,17 +6,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/../../../../lib/scripts/loader.sh"
 
-OBJECTIVE="By the end of this level, you should have:
+OBJECTIVE="By the end of this level, the lab hits each of these observable outcomes:
 
-- A SpeciesInterceptor that captures ?species= into the OpenFeature transaction context
-- A global evaluation context carrying country (from the COUNTRY env var)
-- An AuditHook that logs every flag evaluation
-- Trial passes a 'dose' attribute as invocation context at the call site
-- curl /?species=zyklop returns 'enhanced'
-- curl /?dose=standard returns 'sharp' (with COUNTRY=de) and never the fallback 'untreated'
-- curl /?dose=underdose returns 'clouded' (improper dosing for non-zyklops)
-- curl /?species=zyklop&dose=underdose returns 'enhanced' (species priority survives bad dose)
-- The application log contains audit lines emitted by AuditHook"
+- Targeting by species fires: curl /?species=zyklop returns 'enhanced' regardless of dose or country
+- Targeting by country fires: with COUNTRY=de, curl /?dose=standard returns 'sharp'
+- Targeting by dose fires, and species takes precedence: curl /?dose=underdose returns 'clouded'; curl /?species=zyklop&dose=underdose still returns 'enhanced'
+- Every evaluation produces an [AUDIT] log line carrying species, country, and dose
+- The response is never 'untreated' (provider is wired and reaches flagd)"
 
 DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/00-blind-by-design/intermediate"
 
@@ -150,20 +146,20 @@ fi
 print_new_line
 
 # -----------------------------------------------------------------------------
-# 4. AuditHook audit lines must appear in the application log.
+# 6. AuditHook must produce [AUDIT] lines in the application log.
 # -----------------------------------------------------------------------------
-print_test_section "Checking AuditHook audit lines in application log..."
+print_test_section "Checking AuditHook produced [AUDIT] lines in application log..."
 if [[ -z "$APP_LOG" ]]; then
   print_error_indent "Couldn't find app.log next to verify.sh"
   print_hint "Start the lab with: ./run-germany.sh   (or COUNTRY=de ./mvnw spring-boot:run | tee app.log)"
   TESTS_FAILED=$((TESTS_FAILED + 1))
   FAILED_CHECKS+=("app_log_missing")
-elif grep -Eq "AUDIT|Before hook|After hook" "$APP_LOG"; then
-  print_success_indent "Found AuditHook audit lines in $APP_LOG"
+elif grep -q '\[AUDIT\]' "$APP_LOG"; then
+  print_success_indent "Found [AUDIT] lines in $APP_LOG"
   TESTS_PASSED=$((TESTS_PASSED + 1))
 else
-  print_error_indent "No 'Before hook'/'After hook' lines found in $APP_LOG"
-  print_hint "Did you implement AuditHook and register it via api.addHooks(...)?"
+  print_error_indent "No '[AUDIT]' lines found in $APP_LOG"
+  print_hint "Did you implement AuditHook and register it via api.addHooks(...)? The hook should write a line tagged '[AUDIT]'."
   TESTS_FAILED=$((TESTS_FAILED + 1))
   FAILED_CHECKS+=("custom_hook_log")
 fi

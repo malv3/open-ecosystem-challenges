@@ -12,9 +12,8 @@ cat <<EOF
    $CHALLENGE_DIR
 
 🧪 Sibling services already running (managed by devcontainer compose):
-   - flagd  → reachable at flagd:8013 (gRPC eval) / flagd:8016 (OFREP HTTP)
-              Management/metrics on :8014, sync stream on :8015.
-              All four ports are forwarded to localhost.
+   - flagd  → reachable inside the compose network as flagd:8013 (gRPC).
+              No host-side forwarding — the lab calls it container-to-container.
 
 ▶  Run the lab — three named launch configs ship in .vscode/launch.json:
      🇩🇪  Run the Lab — Germany (COUNTRY=de)
