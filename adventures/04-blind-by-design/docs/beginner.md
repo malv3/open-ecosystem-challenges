@@ -45,12 +45,9 @@ Your Codespace comes pre-configured with the following tools to help you solve t
 - [`jq`](https://jqlang.org/): Pretty-prints and filters the JSON evaluation details that come back from the SDK.
 - A **flagd sidecar** — already running in the devcontainer's compose stack on the docker-internal network. The lab reaches it as `flagd:8013`; you don't need to forward its ports to play this challenge.
 
-## ⏰ Deadline
+## 🏆 Rewards
 
-Tuesday, 26 May 2026 at 23:59 CET
-
-> ℹ️ You can still complete the challenge after this date, but points will only be awarded for submissions before the
-> deadline.
+A **50% Linux Foundation certification voucher** for 1st place and **Credly badges** for the top 3 — for players who complete all three levels by **Tuesday, 26 May 2026 at 23:59 CET**. See the [adventure overview](index.md#-rewards) for ranking rules and eligibility details.
 
 ## 💬 Join the discussion
 
