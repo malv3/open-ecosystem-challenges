@@ -87,7 +87,7 @@ Tuesday, 26 May 2026 at 23:59 CET
 ## 💬 Join the discussion
 
 Share your solutions and questions in
-the [challenge thread](TODO)
+the [challenge thread](https://community.open-ecosystem.com/t/outcome-by-cohort-adventure-04-intermediate/1485)
 in the Open Ecosystem Community.
 
 ## ✅ How to Play
