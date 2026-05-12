@@ -77,12 +77,9 @@ Your Codespace comes pre-configured with the following tools:
 
 The flagd sibling that the Beginner level introduced is still running here — the broken-state `OpenFeatureConfig` already targets it via `Resolver.RPC` (`flagd:8013` from the workspace, `localhost:8013` from your host).
 
-## ⏰ Deadline
+## 🏆 Rewards
 
-Tuesday, 26 May 2026 at 23:59 CET
-
-> ℹ️ You can still complete the challenge after this date, but points will only be awarded for submissions before the
-> deadline.
+A **50% Linux Foundation certification voucher** for 1st place and **Credly badges** for the top 3 — for players who complete all three levels by **Tuesday, 26 May 2026 at 23:59 CET**. See the [adventure overview](index.md#-rewards) for ranking rules and eligibility details.
 
 ## 💬 Join the discussion
 
