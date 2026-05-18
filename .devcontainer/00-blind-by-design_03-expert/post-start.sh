@@ -45,7 +45,7 @@ track_codespace_initialized
 # editor uses internally and works against either the web or desktop client.
 if command -v code >/dev/null 2>&1; then
   code "$REPO_ROOT/adventures/planned/00-blind-by-design/docs/expert.md" \
-       "$CHALLENGE_DIR/src/main/java/dev/openfeature/demo/java/demo/OpenTelemetryConfig.java" \
+       "$CHALLENGE_DIR/otel.properties" \
        "$CHALLENGE_DIR/src/main/java/dev/openfeature/demo/java/demo/OpenFeatureConfig.java" \
        "$CHALLENGE_DIR/flags.json" \
        2>/dev/null || true

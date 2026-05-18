@@ -16,15 +16,19 @@ import java.util.HashMap;
 import java.util.Optional;
 
 /**
- * Wires the OpenFeature client to a remote flagd container ({@code Resolver.RPC},
- * default host {@code localhost:8013}) and registers the cross-cutting hooks.
+ * Wires the OpenFeature client to a remote flagd container ({@code Resolver.RPC})
+ * and registers the cross-cutting hooks.
  *
- * <p>Half-wired on purpose: the {@link TracesHook} reads the current span from
- * the global tracer provider, so flag evaluations show up in Tempo as soon as
- * the OpenTelemetry SDK is initialized. The matching {@code MetricsHook} is NOT
- * registered here — the meter provider is not exporting yet and the
- * "Fun With Flags" dashboard panels in Grafana stay dark. Finishing the wiring
- * is the participant's first task in this level.</p>
+ * <p>OpenTelemetry SDK setup is provided by the OpenTelemetry Java Agent
+ * (attached via {@code -javaagent} — see {@code pom.xml} and {@code otel.properties}).
+ * The agent installs the global {@link io.opentelemetry.api.OpenTelemetry} instance
+ * before {@code main()} runs, so {@link io.opentelemetry.api.GlobalOpenTelemetry#get()}
+ * returns a working SDK throughout this class.</p>
+ *
+ * <p>Half-wired on purpose: the {@link TracesHook} is registered, so flag
+ * evaluations show up as span events in Tempo. The matching
+ * {@code MetricsHook} is NOT registered — until it is, the "Fun With Flags"
+ * dashboard panels in Grafana stay dark.</p>
  */
 @Configuration
 public class OpenFeatureConfig implements WebMvcConfigurer {
@@ -46,9 +50,11 @@ public class OpenFeatureConfig implements WebMvcConfigurer {
 
         api.addHooks(new AuditHook());
         api.addHooks(new TracesHook());
-        // TODO Phase 3 task #1: register the matching MetricsHook here once
-        // the meter provider has been wired up in OpenTelemetryConfig. Without
-        // it the Grafana feature-flag dashboard cannot draw its panels.
+        // TODO Phase 3 task #1: register the matching MetricsHook here. Grab
+        // the OTel handle the agent installed via GlobalOpenTelemetry.get()
+        // — the agent already wired the SDK and exporter before main() ran,
+        // but the metrics pipeline stays inert until you also turn on the
+        // metrics exporter in otel.properties (next to pom.xml).
         //
         // TODO Phase 3 task #2: write a small ContextSpanHook that copies the
         // merged evaluation context attributes (species, country, dose) onto the

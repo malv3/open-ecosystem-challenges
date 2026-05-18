@@ -24,6 +24,21 @@ if [[ -f "$CHALLENGE_DIR/mvnw" ]]; then
   chmod +x "$CHALLENGE_DIR/mvnw"
 fi
 
+# Download the OpenTelemetry Java Agent. The Spring Boot Maven Plugin
+# attaches it via -javaagent (see expert/pom.xml). One jar per Codespace
+# — skip if already present so re-runs are cheap.
+OTEL_AGENT_VERSION="v2.27.0"
+OTEL_AGENT_DIR="$REPO_ROOT/tools"
+OTEL_AGENT_JAR="$OTEL_AGENT_DIR/opentelemetry-javaagent.jar"
+mkdir -p "$OTEL_AGENT_DIR"
+if [[ ! -f "$OTEL_AGENT_JAR" ]]; then
+  echo "⬇️  Downloading OpenTelemetry Java Agent $OTEL_AGENT_VERSION..."
+  curl -fsSL \
+    -o "$OTEL_AGENT_JAR" \
+    "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/$OTEL_AGENT_VERSION/opentelemetry-javaagent.jar" \
+    || echo "⚠️  Failed to fetch the OpenTelemetry Java Agent — traces and metrics will not flow until the jar is present at $OTEL_AGENT_JAR"
+fi
+
 echo "✨ Pre-warming the Maven dependency cache so the first ./mvnw is fast..."
 ( cd "$CHALLENGE_DIR" && ./mvnw -q -DskipTests dependency:go-offline ) || \
   echo "⚠️  Dependency pre-warm skipped (network or wrapper not ready yet)"

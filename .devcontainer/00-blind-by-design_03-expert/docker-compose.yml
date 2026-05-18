@@ -18,9 +18,13 @@ services:
     environment:
       - FLAGD_HOST=flagd
       - FLAGD_PORT=8013
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://lgtm:4317
-      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-      - OTEL_SERVICE_NAME=fun-with-flags-java-spring
+      # OpenTelemetry Java Agent. post-create.sh downloads the jar; the
+      # spring-boot-maven-plugin reads OTEL_JAVAAGENT_JAR for its <jvmArguments>
+      # so only the forked lab JVM is agent-attached (not Maven itself).
+      # Agent config lives in expert/otel.properties — that's the file
+      # players edit to toggle the metrics exporter.
+      - OTEL_JAVAAGENT_JAR=/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}/tools/opentelemetry-javaagent.jar
+      - OTEL_JAVAAGENT_CONFIGURATION_FILE=/workspaces/${localWorkspaceFolderBasename:-open-ecosystem-challenges}/adventures/planned/00-blind-by-design/expert/otel.properties
       # Trial country of registration. Read by OpenFeatureConfig via
       # System.getenv("COUNTRY") and put on the global eval context.
       - COUNTRY=de

@@ -3,12 +3,13 @@
   "configurations": [
     {
       "type": "java",
-      "name": "🧪 Run the Phase 3 Lab",
+      "name": "🧪 Run the Lab",
       "request": "launch",
       "mainClass": "dev.openfeature.demo.java.demo.Laboratory",
       "projectName": "demo",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}",
+      "vmArgs": "-javaagent:${env:OTEL_JAVAAGENT_JAR}"
     }
   ]
 }

@@ -29,12 +29,16 @@ TESTS_FAILED=0
 FAILED_CHECKS=()
 
 APP_URL="http://localhost:8080"
-# flagd is on the docker-internal network only — verify.sh runs from
-# the workspace container's terminal, where the service name resolves.
+# verify.sh runs from inside the workspace container. The lab is in the
+# same container, so localhost:8080 works — but flagd and the LGTM stack
+# are sibling compose services, reachable only by service name on the
+# docker-internal network. Codespaces forwards the host ports onto the
+# developer's laptop (so the browser sees localhost:3000), but those
+# forwards don't loop back into the workspace container.
 FLAGD_HTTP="http://flagd:8013"
-PROMETHEUS_URL="http://localhost:9090"
-TEMPO_URL="http://localhost:3200"
-GRAFANA_URL="http://localhost:3000"
+PROMETHEUS_URL="http://lgtm:9090"
+TEMPO_URL="http://lgtm:3200"
+GRAFANA_URL="http://lgtm:3000"
 
 # ---- 1. App reachable ------------------------------------------------------
 # Lean on test_http_endpoint from lib/scripts/http.sh — handles connection
@@ -68,7 +72,7 @@ if curl -fsS --max-time 5 "$GRAFANA_URL/api/health" >/dev/null 2>&1; then
   TESTS_PASSED=$((TESTS_PASSED + 1))
 else
   print_error_indent "Grafana is not reachable at $GRAFANA_URL"
-  print_hint "The LGTM stack is a sibling devcontainer service (lgtm). Reopen the Codespace if it is not running."
+  print_hint "The LGTM stack is a sibling compose service named 'lgtm'. From the workspace container use lgtm:3000 (not localhost). If it's still unreachable, the sibling container has not started — reopen the Codespace."
   TESTS_FAILED=$((TESTS_FAILED + 1))
   FAILED_CHECKS+=("lgtm_reachable")
 fi
@@ -87,7 +91,9 @@ if [[ -z "$ROLLOUT_RESPONSE" ]]; then
   TESTS_FAILED=$((TESTS_FAILED + 1))
   FAILED_CHECKS+=("vision_amplifier_v2_rollback")
 else
-  ROLLOUT_VALUE=$(echo "$ROLLOUT_RESPONSE" | jq -r '.value // empty')
+  # NB: do not use `.value // empty` — `//` treats jq-false as missing,
+  # so a successfully rolled-back flag (.value=false) would print as ''.
+  ROLLOUT_VALUE=$(echo "$ROLLOUT_RESPONSE" | jq -r '.value')
   if [[ "$ROLLOUT_VALUE" == "false" ]]; then
     print_info_indent "✓ vision_amplifier_v2 evaluates to false (rollout has been rolled back)"
     TESTS_PASSED=$((TESTS_PASSED + 1))
@@ -108,7 +114,7 @@ PROM_RESPONSE=$(curl -fsS --max-time 5 -G "$PROMETHEUS_URL/api/v1/query" \
 
 if [[ -z "$PROM_RESPONSE" ]]; then
   print_error_indent "Could not query Prometheus at $PROMETHEUS_URL"
-  print_hint "The grafana/otel-lgtm container exposes Prometheus on port 9090. If port 9090 is not forwarded, the lgtm sibling container has not started — reopen the Codespace."
+  print_hint "Prometheus runs inside the lgtm sibling compose service on port 9090 (reachable as lgtm:9090 from the workspace container). If it's still unreachable, the lgtm container has not started — reopen the Codespace."
   TESTS_FAILED=$((TESTS_FAILED + 1))
   FAILED_CHECKS+=("prometheus_metrics")
 else
@@ -135,7 +141,7 @@ TEMPO_RESPONSE=$(curl -fsS --max-time 5 -G "$TEMPO_URL/api/search" \
 
 if [[ -z "$TEMPO_RESPONSE" ]]; then
   print_error_indent "Could not query Tempo at $TEMPO_URL"
-  print_hint "The grafana/otel-lgtm container exposes Tempo on port 3200. If port 9090 is not forwarded, the lgtm sibling container has not started — reopen the Codespace."
+  print_hint "Tempo runs inside the lgtm sibling compose service on port 3200 (reachable as lgtm:3200 from the workspace container). If it's still unreachable, the lgtm container has not started — reopen the Codespace."
   TESTS_FAILED=$((TESTS_FAILED + 1))
   FAILED_CHECKS+=("tempo_traces")
 else

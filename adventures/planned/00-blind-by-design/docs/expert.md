@@ -149,17 +149,17 @@ to the LGTM stack on `4317` (gRPC) and `4318` (HTTP).
 
 Four sub-tasks, in order: wire the meter provider, register the matching `MetricsHook`, write your own `ContextSpanHook` to enrich spans with the flag-decision context, then turn on the loadgen so you can find and roll back the misbehaving fractional rollout.
 
-#### 4a. Wire the OpenTelemetry meter provider
+#### 4a. Turn on the metrics exporter
 
-OTel ships two parallel pipelines: **traces** (per-request spans, already flowing into Tempo) and **metrics** (aggregate counters, dead). Each has its own provider, its own SDK, its own exporter. The metrics half is being built via the autoconfig SDK but told to export to `none` — any metrics it records have nowhere to go. Both providers register globally via `GlobalOpenTelemetry`, so once the meter has a working exporter, the OpenFeature `MetricsHook` (next step) finds it without any further plumbing.
+OTel ships two parallel pipelines: **traces** (per-request spans, already flowing into Tempo) and **metrics** (aggregate counters, dead). The OpenTelemetry Java Agent attached to the lab JVM has both pipelines plumbed and pointed at the LGTM stack, but its config says `otel.metrics.exporter=none` — anything the meter records goes nowhere. Flip the exporter on and the OpenFeature `MetricsHook` (next step) finds the working meter provider through `GlobalOpenTelemetry` without any further plumbing.
 
-`OpenTelemetryConfig.java` and `application.properties` are where the autoconfig defaults live; the LGTM stack accepts OTLP on `:4317` (gRPC). After you wire it, watch how long the dashboard lags new traffic — the SDK's default batch interval will make the next ten minutes harder than they need to be.
+`otel.properties` (next to `pom.xml`) is what the agent reads on startup. While you're there, look at the export interval — the agent's default makes the next ten minutes harder than they need to be.
 
 #### 4b. Register `MetricsHook` on the OpenFeature API
 
 The OpenFeature OTel contrib library ships two hooks that turn flag evaluations into telemetry: **`TracesHook`** emits a span event on the active span (that's why flag evaluations show up nested inside HTTP request spans in Tempo); **`MetricsHook`** emits four counters per evaluation — `feature_flag_evaluation_requests_total` and friends — that power the dashboard panels.
 
-`OpenFeatureConfig.java` registers `TracesHook` but stops there. `MetricsHook` needs an `OpenTelemetry` handle to find the meter provider you just wired. Even once it's registered, the **Fun With Flags — Feature Flag Metrics** dashboard stays empty until something drives traffic — that's the next step.
+`OpenFeatureConfig.java` registers `TracesHook` but stops there. `MetricsHook` needs an `OpenTelemetry` handle to find the meter provider — the agent installs one globally at JVM start, so `GlobalOpenTelemetry.get()` is the way to reach it. Even once `MetricsHook` is registered, the **Fun With Flags — Feature Flag Metrics** dashboard stays empty until something drives traffic — that's the next step.
 
 #### 4c. Author and register your own `ContextSpanHook`
 
@@ -190,7 +190,7 @@ The `before` callback receives a `HookContext`, and `getCtx()` returns the **mer
 #### Helpful Documentation
 
 - [OpenFeature OTel contrib hooks (Java)](https://github.com/open-feature/java-sdk-contrib/tree/main/hooks/open-telemetry) — where `TracesHook` and `MetricsHook` live, with constructor signatures
-- [OpenTelemetry Java SDK autoconfigure](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) — every `otel.*` property the autoconfig SDK reads, including the exporter and batch-interval knobs
+- [OpenTelemetry Java Agent — agent configuration](https://opentelemetry.io/docs/zero-code/java/agent/configuration/) — every `otel.*` key the agent honors, including exporter and batch-interval knobs
 - [OpenFeature Hooks concept](https://openfeature.dev/docs/reference/concepts/hooks) — the `before` / `after` / `error` / `finallyAfter` lifecycle for authoring your own hook
 - [flagd `fractional` operation](https://flagd.dev/reference/custom-operations/fractional-operation/) — the bucketing rule and how it reads the targetingKey
 - [OpenTelemetry security guidance](https://opentelemetry.io/docs/security/) — why allowlists on span attributes matter at SIEM scale

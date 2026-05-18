@@ -70,22 +70,16 @@
 			<version>3.2.1</version>
 		</dependency>
 
-		<!-- OpenTelemetry SDK + OTLP exporter + autoconfigure module -->
+		<!-- OpenTelemetry API only. The SDK, autoconfigure, OTLP exporter,
+		     and all auto-instrumentation are provided by the OpenTelemetry
+		     Java Agent attached via -javaagent (see spring-boot-maven-plugin
+		     <jvmArguments> below and .vscode/launch.json). The agent
+		     registers the global SDK before main() runs and instruments
+		     Spring WebMVC for per-request server spans, which is what
+		     TracesHook and the ContextSpanHook need to attach to. -->
 		<dependency>
 			<groupId>io.opentelemetry</groupId>
 			<artifactId>opentelemetry-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.opentelemetry</groupId>
-			<artifactId>opentelemetry-sdk</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.opentelemetry</groupId>
-			<artifactId>opentelemetry-exporter-otlp</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.opentelemetry</groupId>
-			<artifactId>opentelemetry-sdk-extension-autoconfigure</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -94,6 +88,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- Attach the OpenTelemetry Java Agent only to the forked
+					     lab JVM (not Maven itself). The agent jar is downloaded
+					     into tools/ by post-create.sh; OTEL_JAVAAGENT_JAR
+					     overrides the path. The agent reads its config from
+					     OTEL_JAVAAGENT_CONFIGURATION_FILE (otel.properties in
+					     the lab dir). -->
+					<jvmArguments>-javaagent:${env.OTEL_JAVAAGENT_JAR}</jvmArguments>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

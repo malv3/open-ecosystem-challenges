@@ -16,7 +16,7 @@
     "codespaces": {
       "openFiles": [
         "adventures/planned/00-blind-by-design/docs/expert.md",
-        "adventures/planned/00-blind-by-design/expert/src/main/java/dev/openfeature/demo/java/demo/OpenTelemetryConfig.java",
+        "adventures/planned/00-blind-by-design/expert/otel.properties",
         "adventures/planned/00-blind-by-design/expert/src/main/java/dev/openfeature/demo/java/demo/OpenFeatureConfig.java",
         "adventures/planned/00-blind-by-design/expert/flags.json"
       ]
