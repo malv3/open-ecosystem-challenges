@@ -1,5 +1,5 @@
 # ============================================================================
-# Makefile for Blind by Design - Expert Level: Phase 3 — read the chart
+# Makefile for Blind by Design - Expert Level: Read the chart
 # ============================================================================
 # This Makefile provides convenient commands for running the Spring Boot lab
 # alongside the Grafana LGTM stack and verifying your solution.
@@ -9,7 +9,7 @@
 
 # Default target - show help
 help:
-	@echo "Blind by Design - Expert Level: Phase 3 — read the chart"
+	@echo "Blind by Design - Expert Level: Read the chart"
 	@echo ""
 	@echo "Application:"
 	@echo "  make lab     - Start the Spring Boot lab on :8080"

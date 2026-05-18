@@ -6,7 +6,7 @@ CHALLENGE_DIR="$REPO_ROOT/adventures/planned/00-blind-by-design/expert"
 
 cat <<EOF
 
-✨ Adventure 00 — Level 3 (🔴 Expert): Phase 3 — read the chart
+✨ Adventure 00 — Level 3 (🔴 Expert): Read the chart
 
 📂 Challenge directory:
    $CHALLENGE_DIR

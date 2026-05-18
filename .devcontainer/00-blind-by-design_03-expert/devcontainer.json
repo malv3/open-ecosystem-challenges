@@ -1,5 +1,5 @@
 {
-  "name": "🧪 Adventure 00 | 🔴 Expert (Phase 3 — read the chart)",
+  "name": "🧪 Adventure 00 | 🔴 Expert (Read the chart)",
   "dockerComposeFile": "docker-compose.yml",
   "service": "workspace",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/adventures/planned/00-blind-by-design/expert",

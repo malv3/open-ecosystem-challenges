@@ -17,7 +17,7 @@ DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/00-blind-by-
 
 print_header \
   'Adventure 00: Blind by Design' \
-  '🔴 Expert: Phase 3 — read the chart' \
+  '🔴 Expert: Read the chart' \
   'Verification'
 
 check_prerequisites curl jq
@@ -219,7 +219,7 @@ else
 fi
 print_new_line
 
-print_verification_summary "Phase 3 — read the chart" "$DOCS_URL" "$OBJECTIVE"
+print_verification_summary "Read the chart" "$DOCS_URL" "$OBJECTIVE"
 
 if [[ $TESTS_FAILED -ne 0 ]]; then
   exit 1

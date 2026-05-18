@@ -1,14 +1,6 @@
-# 🔴 Expert: Phase 3 — read the chart
-
-Three sub-tasks:
-
-1. **Wire the OpenTelemetry meter provider** and register the OpenFeature `MetricsHook` so flag evaluations show up as Prometheus counters.
-2. **Author a `ContextSpanHook`** of your own — a small `Hook` that copies the merged evaluation context (`species`, `country`, `dose`) onto the active OTel span as `feature_flag.context.<key>` so traces correlate variants with the context that drove them.
-3. **Diagnose and roll back a misbehaving fractional rollout.** The `vision_amplifier_v2` flag is at 100% on; it's adding 200ms latency and a 10% HTTP 5xx rate. Identify it on the Grafana dashboard and roll it back via `flags.json` — no redeploy.
+# 🔴 Expert: Read the chart
 
 Spans are already flowing into Tempo from the OpenFeature `TracesHook`, but the metrics half is dead — the `MeterProvider` has no exporter and the `MetricsHook` was never registered. The dashboard the operator wants to triage from is empty. The k6 loadgen is idle, waiting for a flag flip to turn it on.
-
-The level passes when (a) `feature_flag_evaluation_requests_total` is non-zero in Prometheus, (b) Tempo spans for `fun-with-flags-java-spring` carry `feature_flag.context.*` attributes, (c) `vision_amplifier_v2` is rolled back to 100% off, and (d) the HTTP 5xx rate over the last minute is below 1%.
 
 ## 🪐 The Backstory
 
@@ -97,7 +89,7 @@ Quick start:
 
 - Fork the repo
 - Create a Codespace
-- Select **"Adventure 00 | 🔴 Expert (Phase 3 — read the chart)"**
+- Select **"Adventure 00 | 🔴 Expert (Read the chart)"**
 - Wait ~2-3 minutes for the sibling containers (flagd, Grafana LGTM, k6
   loadgen) to come up. They are part of the devcontainer compose, so they
   start automatically — no `docker compose up` step.
@@ -159,23 +151,19 @@ Four sub-tasks, in order: wire the meter provider, register the matching `Metric
 
 #### 4a. Wire the OpenTelemetry meter provider
 
-OTel ships two parallel pipelines: **traces** (per-request spans, already flowing into Tempo) and **metrics** (aggregate counters, dead). Each has its own provider, its own SDK, its own exporter. The fix here is on the metrics side — a `MeterProvider` is being created but its exporter is `none`, so any metrics it records go nowhere. Both providers register globally via `GlobalOpenTelemetry`, so once the meter is wired the `MetricsHook` (next step) finds it without any further plumbing.
+OTel ships two parallel pipelines: **traces** (per-request spans, already flowing into Tempo) and **metrics** (aggregate counters, dead). Each has its own provider, its own SDK, its own exporter. The metrics half is being built via the autoconfig SDK but told to export to `none` — any metrics it records have nowhere to go. Both providers register globally via `GlobalOpenTelemetry`, so once the meter has a working exporter, the OpenFeature `MetricsHook` (next step) finds it without any further plumbing.
 
-Open `adventures/planned/00-blind-by-design/expert/src/main/java/dev/openfeature/demo/java/demo/OpenTelemetryConfig.java`. The `@Bean` method already calls `AutoConfiguredOpenTelemetrySdk.builder()`, which produces an `OpenTelemetry` instance with **both** a `SdkTracerProvider` and a `SdkMeterProvider` — but only the tracer provider has an exporter. The meter provider is told `otel.metrics.exporter=none`.
-
-Flip `otel.metrics.exporter` to `otlp` so the SDK attaches an `OtlpGrpcMetricExporter`. The cleanest way is to update both the default in `OpenTelemetryConfig.java` and the value in `src/main/resources/application.properties`. While you're there, set `otel.metric.export.interval=10000` so the dashboard updates within ten seconds of new traffic instead of waiting a minute.
+`OpenTelemetryConfig.java` and `application.properties` are where the autoconfig defaults live; the LGTM stack accepts OTLP on `:4317` (gRPC). After you wire it, watch how long the dashboard lags new traffic — the SDK's default batch interval will make the next ten minutes harder than they need to be.
 
 #### 4b. Register `MetricsHook` on the OpenFeature API
 
-The OpenFeature OTel contrib library ships two hooks that turn flag evaluations into telemetry: **`TracesHook`** emits a span event (`feature_flag.evaluation`) on the active span — that's why flag evaluations show up nested inside HTTP request spans in Tempo. **`MetricsHook`** emits four counters per evaluation: `feature_flag_evaluation_requests_total`, `_success_total`, `_error_total`, plus an active-count up/down counter. These power the dashboard panels.
+The OpenFeature OTel contrib library ships two hooks that turn flag evaluations into telemetry: **`TracesHook`** emits a span event on the active span (that's why flag evaluations show up nested inside HTTP request spans in Tempo); **`MetricsHook`** emits four counters per evaluation — `feature_flag_evaluation_requests_total` and friends — that power the dashboard panels.
 
-Open `OpenFeatureConfig.java`. `TracesHook` is already registered; `MetricsHook` is not. `MetricsHook` needs the `OpenTelemetry` instance to grab the meter provider, so inject the bean via constructor injection and call `api.addHooks(new MetricsHook(openTelemetry));` next to the `TracesHook` line.
-
-If you compile and run after this step, the **Fun With Flags — Feature Flag Metrics** dashboard in Grafana stays empty — there is no traffic to drive the counters. Move on.
+`OpenFeatureConfig.java` registers `TracesHook` but stops there. `MetricsHook` needs an `OpenTelemetry` handle to find the meter provider you just wired. Even once it's registered, the **Fun With Flags — Feature Flag Metrics** dashboard stays empty until something drives traffic — that's the next step.
 
 #### 4c. Author and register your own `ContextSpanHook`
 
-The two contrib hooks tell you *what* happened — which flag, which variant, which reason. The `AuditHook` shipped with this level (carried over from Intermediate) writes the durable archive view to disk. What's missing is the **on-call's view in Tempo**: when a span shows `feature_flag.variant=clouded`, the operator can't see *why* without a separate hop into the audit log. Write a third hook that copies the merged eval context attributes onto the active OTel span — same data the audit log records, but visible right next to the variant in the trace UI.
+The two contrib hooks tell you *what* happened — which flag, which variant, which reason. The `AuditHook` shipped with this level (carried over from Intermediate) writes the durable archive view to disk. What's missing is the **on-call's view in Tempo**: when a span shows `feature_flag.variant=clouded`, the operator can't see *why* without a separate hop into the audit log. Write a third hook that copies the merged eval context attributes onto the active OTel span as `feature_flag.context.<key>` — same data the audit log records, but visible right next to the variant in the trace UI.
 
 The shape is roughly:
 
@@ -187,32 +175,25 @@ before(hookCtx) {
 }
 ```
 
-The `before` callback receives a `HookContext`, and `getCtx()` returns the **merged** evaluation context (global + transaction + invocation) — exactly what drove the flag's resolution, so the attributes you copy off it line up with what the variant decision actually saw. Span attributes go on `Span.current()` because that's the active HTTP request span; the OpenFeature hook fires inside its scope.
-
-Register it next to `TracesHook` / `MetricsHook` in `OpenFeatureConfig`. Now in Tempo: **Search → Service: fun-with-flags-java-spring → +Tag → `feature_flag.context.dose=underdose`** lights up exactly the requests where a tech mis-dosed, with the resolved variant on the same span event.
+The `before` callback receives a `HookContext`, and `getCtx()` returns the **merged** evaluation context (global + transaction + invocation) — exactly what drove the flag's resolution. Span attributes go on the currently active span; the OpenFeature hook fires inside its scope. Register it alongside `TracesHook` / `MetricsHook` in `OpenFeatureConfig`. The verifier searches Tempo for `feature_flag.context.dose=underdose` once you're done — that's the smoke signal.
 
 > ⚠️ **Allowlist, don't iterate.** Use a fixed allowlist (`List.of("species", "country", "dose")`) — never iterate the whole eval context. The merged context routinely carries the OpenFeature `targetingKey`, typically a stable user id that joins to email and account data in real apps. Span attributes are retained for days in Tempo and indexed at scale; once they ship, redacting after the fact is hard. Same discipline `AuditHook` already follows for the audit log, same reason. See [OpenTelemetry's security guidance](https://opentelemetry.io/docs/security/).
 
 #### 4d. Turn on the loadgen, find the bad rollout, roll it back
 
-`fractional` is flagd's bucketing operation: given a list of `[variant, percent]` pairs, it deterministically assigns each evaluation to a variant based on a hash of the **`targetingKey`** on the eval context. Same key → same bucket → same variant, every request. Different keys spread across the percentages. **If no targeting key is set, every evaluation hashes the same way, every request lands in the same bucket, and the percentages do nothing.** The `SpeciesInterceptor` shipped with this level reads `?userId=` from each request and threads it through as the targetingKey — the lab is already serving fractional rollouts correctly without you touching it. The k6 loadgen exploits this: it generates a fresh random `userId` per request, which means a different targetingKey per request, which means the fractional rollout spreads across the percentages exactly as configured.
+`fractional` is flagd's bucketing operation: given a list of `[variant, percent]` pairs, it deterministically assigns each evaluation to a variant based on a hash of the **`targetingKey`** on the eval context. Same key → same bucket → same variant. Different keys spread across the percentages. **If no targeting key is set, every evaluation hashes the same way, every request lands in the same bucket, and the percentages do nothing.** The `SpeciesInterceptor` shipped with this level reads `?userId=` and threads it through as the targetingKey — the lab is already serving fractional rollouts correctly without you touching it.
 
-Edit `flags.json` in the expert directory and flip `loadgen_active`'s `defaultVariant` from `"off"` to `"on"`. flagd watches the file and picks up changes within a second. The k6 loadgen container has been polling `loadgen_active` every two seconds — it will notice and start hammering `http://workspace:8080/` with five virtual users (the workspace service name resolves inside the compose network).
-
-Now open the dashboard. When the loadgen turns on you should see latency creep up around 200ms and 5xx rate around 10%; if those don't move, the loadgen flag isn't actually live yet.
-
-That's the diagnosis: the fractional rollout for `vision_amplifier_v2` is inverted. The flag definition currently reads:
-
-```json
-"fractional": [
-  ["off", 0],
-  ["on", 100]
-]
-```
-
-Edit `flags.json` again — flip the percentages so `off` gets `100` and `on` gets `0`. Save. Within one or two seconds flagd reloads. Because the targetingKey is sticky per `userId` and the loadgen generates a fresh `userId` per request, every subject re-buckets against the new percentages and the population moves to the safe variant. Watch the latency p99 panel collapse back to baseline and the 5xx rate fall to zero.
+`flags.json` in the expert directory has a `loadgen_active` flag (off) and the misbehaving `vision_amplifier_v2` flag. flagd watches the file and picks up changes within a second; the k6 loadgen polls `loadgen_active` every two seconds, so flipping it turns on five virtual users hammering the lab. When the loadgen turns on, latency p99 should climb around 200ms and the 5xx rate around 10% — confirmation that something is firing. The dashboard's variant-distribution panel tells you which one. Roll the offender back via the flag definition, watch the dashboard recover.
 
 **No deploy. No rebuild. No restart of the lab.**
+
+#### Helpful Documentation
+
+- [OpenFeature OTel contrib hooks (Java)](https://github.com/open-feature/java-sdk-contrib/tree/main/hooks/open-telemetry) — where `TracesHook` and `MetricsHook` live, with constructor signatures
+- [OpenTelemetry Java SDK autoconfigure](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) — every `otel.*` property the autoconfig SDK reads, including the exporter and batch-interval knobs
+- [OpenFeature Hooks concept](https://openfeature.dev/docs/reference/concepts/hooks) — the `before` / `after` / `error` / `finallyAfter` lifecycle for authoring your own hook
+- [flagd `fractional` operation](https://flagd.dev/reference/custom-operations/fractional-operation/) — the bucketing rule and how it reads the targetingKey
+- [OpenTelemetry security guidance](https://opentelemetry.io/docs/security/) — why allowlists on span attributes matter at SIEM scale
 
 ### 5. Verify Your Solution
 
