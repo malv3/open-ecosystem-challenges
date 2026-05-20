@@ -15,7 +15,7 @@ A **50% Linux Foundation certification voucher** for 1st place and **Credly badg
 ## 💬 Join the discussion
 
 Share your solutions and questions in
-the [challenge thread](https://community.open-ecosystem.com/t/outcome-by-cohort-adventure-04-expert)
+the [challenge thread](https://community.open-ecosystem.com/t/read-the-chart-adventure-04-expert)
 in the Open Ecosystem Community.
 
 ## 🏗️ Architecture
