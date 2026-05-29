@@ -12,7 +12,7 @@ OBJECTIVE="By the end of this level, you should have:
 - All workloads running as privileged containers blocked at admission with a clear policy violation message
 - Confirmed that all other workloads deploy and run successfully in the cluster"
 
-DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/00-lex-imperfecta/beginner"
+DOCS_URL="https://offon.dev/adventures/lex-imperfecta/levels/beginner"
 
 print_header \
   'Challenge 00: Lex Imperfecta' \

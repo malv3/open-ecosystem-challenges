@@ -1,0 +1,28 @@
+slug: blind-by-design
+name: "Blind by Design"
+emoji: "🧪"
+deadline: "2026-05-26T23:59:00+01:00"
+
+technologies:
+  - OpenFeature Java SDK
+  - flagd
+  - Spring Boot
+  - Grafana LGTM (Tempo + Prometheus + Loki)
+  - Testcontainers
+
+backstory: |
+  The **Aletheia Institute** is running a multi-phase vision-enhancement trial. The **lab** is a Spring Boot service whose one job is to record the **`vision_state`** of every subject who walks through the protocol — `blurry`, `sharp`, `enhanced`, or `clouded` — because subjects don't all arrive with the same biology, the same dose adherence, or the same trial-jurisdiction baseline. The flag definitions that drive those readings live in `flags.json`, watched by a **flagd** sidecar; the **OpenFeature** SDK is supposed to call that sidecar on every evaluation.
+
+  It hasn't been. For the past **eight months**, every subject through the door has been recorded as `"untreated"` — the integration was never finished, and the lab director assumed the system was reading the chart. Worse, **eight weeks ago** the Institute opened its flagship Phase 3 trial: a new amplifier variant rolled out fractionally to a cohort by a targeting rule in `flags.json`. **Four adverse-event reports** have since been filed, each one a subject whose `vision_state` at discharge was worse than at enrollment.
+
+  The monitoring is dark — not by accident, but because no one ever turned the lights on. Your mission across three levels: **stand up the lab** so it reads the chart, **read the chart by cohort** so outcomes can be tracked, then **turn on the lights and roll back the Phase 3 variant** before the director signs off on the next enrollment batch.
+
+overview: |
+  OpenFeature is a vendor-neutral standard for feature flags. The reference cloud-native implementation is **flagd** — it serves flag definitions from a JSON file, locally or remotely, and the OpenFeature SDK in your application calls it on every evaluation.
+
+  In this adventure, the lab uses OpenFeature exactly the way a real engineering team would: a Spring Boot service holds the SDK client, flagd holds the flag definitions, and the targeting rules in `flags.json` decide what reading every subject ends up with. By the end, you'll have wired the SDK in from scratch, learned to record outcomes by cohort, and rolled back a misbehaving Phase 3 trial without redeploying.
+
+rewards:
+  prizes:
+    - "🥇 **1st place:** 50% voucher for a Linux Foundation certification"
+    - "**Top 3 finishers:** Credly badge"
