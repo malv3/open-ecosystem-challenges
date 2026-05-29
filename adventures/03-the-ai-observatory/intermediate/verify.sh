@@ -13,7 +13,7 @@ OBJECTIVE="By the end of this level, you should:
 - Create a Prometheus recording rule to calculate ART's 'Distraction Level'
 - Restore the navigation system so ART successfully calculates the jump coordinates to RaviHyral"
 
-DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/03-the-ai-observatory/intermediate"
+DOCS_URL="https://offon.dev/adventures/the-ai-observatory/levels/intermediate"
 
 print_header \
   'Challenge 03: The AI Observatory' \

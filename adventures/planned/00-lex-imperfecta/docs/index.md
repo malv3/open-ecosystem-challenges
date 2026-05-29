@@ -25,4 +25,4 @@ independent — pick your level and start wherever you feel comfortable.
 
 Fix broken Kyverno policies to restore proper admission control.
 
-[**Start the Beginner Challenge**](./beginner.md){ .md-button .md-button--primary }
+[**Start the Beginner Challenge**](./beginner.md)
