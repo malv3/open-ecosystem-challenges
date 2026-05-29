@@ -6,7 +6,7 @@ help:
 	@echo "  make verify   Run the verification script"
 
 apply:
-	@kubectl delete pod compliant missing-labels privileged privileged-init-container --ignore-not-found > /dev/null 2>&1; true
+	@kubectl delete pod compliant missing-labels privileged privileged-init-container peregrinus --ignore-not-found > /dev/null 2>&1; true
 	@echo "Applied Policies:"; \
 	for f in manifests/policies/*.yaml; do \
 		name=$$(grep '^  name:' "$$f" | awk '{print $$2}'); \

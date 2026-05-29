@@ -10,6 +10,7 @@ OBJECTIVE="By the end of this level, you should have:
 
 - All workloads missing the 'republic.rome/gens' label blocked at admission with a clear policy violation message
 - All workloads running as privileged containers blocked at admission with a clear policy violation message
+- All pods declaring 'republic.rome/traveler: peregrinus' automatically receiving the 'republic.rome/travel-permit: granted' label
 - Confirmed that all other workloads deploy and run successfully in the cluster"
 
 DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/00-lex-imperfecta/beginner"
@@ -139,10 +140,58 @@ EOF
 
 
 # =============================================================================
-# Objective 3: Compliant workloads deploy and run successfully
+# Objective 3: Peregrini receive a travel permit via mutation
 # =============================================================================
 print_new_line
-print_sub_header "3. Checking that compliant workloads are admitted..."
+print_sub_header "3. Checking that peregrini receive a travel permit..."
+
+check_label_exists \
+  "Peregrinus pod" \
+  "republic.rome/travel-permit" \
+  "granted" \
+  "Check the 'stamp-travel-permit' policy — what does the mutation expression add?" <<'EOF'
+apiVersion: v1
+kind: Pod
+metadata:
+  name: verify-peregrinus
+  labels:
+    republic.rome/gens: forum-romanum
+    republic.rome/traveler: peregrinus
+spec:
+  containers:
+    - name: app
+      image: busybox:stable
+      command: ["sleep", "1"]
+      securityContext:
+        privileged: false
+EOF
+
+check_label_not_exists \
+  "Non-peregrinus pod" \
+  "republic.rome/travel-permit" \
+  "Check the 'stamp-travel-permit' policy — does the matchCondition target only peregrini?" <<'EOF'
+apiVersion: v1
+kind: Pod
+metadata:
+  name: verify-citizen
+  labels:
+    republic.rome/gens: forum-romanum
+spec:
+  containers:
+    - name: app
+      image: busybox:stable
+      command: ["sleep", "1"]
+      securityContext:
+        privileged: false
+EOF
+
+
+
+# =============================================================================
+# Objective 4: Compliant workloads deploy and run successfully
+# =============================================================================
+print_new_line
+print_sub_header "4. Checking that compliant workloads are admitted..."
 
 check_admission_allowed \
   "Fully compliant pod (label + non-privileged)" \
