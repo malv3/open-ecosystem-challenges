@@ -24,13 +24,13 @@ backstory:
 
 objective:
   - >-
-    All workloads **missing the `republic.rome/gens` label** blocked at admission with a clear policy violation message
+    All workloads **missing the `republic.rome/gens` label** are blocked at admission with a clear policy violation message
   - >-
-    All workloads **running as privileged containers** blocked at admission with a clear policy violation message
+    All workloads **running as privileged containers** are blocked at admission with a clear policy violation message
   - >-
-    All pods declaring **`republic.rome/traveler: peregrinus`** automatically receiving the **`republic.rome/travel-permit: granted`** label
+    All pods declaring **`republic.rome/traveler: peregrinus`** automatically receive the **`republic.rome/travel-permit: granted`** label
   - >-
-    Confirmed that **all other workloads** deploy and run successfully in the cluster
+    **All other workloads** deploy and run successfully in the cluster
 
 what_you_learn:
   - >-

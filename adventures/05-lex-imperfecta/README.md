@@ -1,4 +1,4 @@
-# ⚖️ Adventure 00: Lex Imperfecta
+# ⚖️ Adventure 05: Lex Imperfecta
 
 The Roman Republic has built a sophisticated legal system to protect its citizens — but the laws were written
 in haste, and the exceptions were written too generously. Policies go unenforced, the wrong citizens are exempt, and
@@ -12,4 +12,5 @@ The entire **infrastructure is pre-provisioned in your Codespace**
 
 ## 🚀 Ready to Start?
 
-[Choose your level](https://offon.dev/adventures/lex-imperfecta/) and begin learning!
+Head over to the [challenge docs](https://offon.dev/adventures/lex-imperfecta/) for more information.
+

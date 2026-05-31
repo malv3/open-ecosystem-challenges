@@ -4,7 +4,7 @@ set -euo pipefail
 # Load shared libraries
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
-source "$SCRIPT_DIR/../../../../lib/scripts/loader.sh"
+source "$SCRIPT_DIR/../../../lib/scripts/loader.sh"
 
 OBJECTIVE="By the end of this level, you should have:
 
@@ -16,7 +16,7 @@ OBJECTIVE="By the end of this level, you should have:
 DOCS_URL="https://offon.dev/adventures/lex-imperfecta/levels/beginner"
 
 print_header \
-  'Challenge 00: Lex Imperfecta' \
+  'Challenge 05: Lex Imperfecta' \
   'Level 01: The Twelve Tables' \
   'Verification'
 
@@ -236,4 +236,4 @@ print_success "✅ PASSED: All $TESTS_PASSED verification checks passed!"
 print_new_line
 
 # Run submission readiness checks
-check_submission_readiness "00-lex-imperfecta" "beginner"
+check_submission_readiness "05-lex-imperfecta" "beginner"

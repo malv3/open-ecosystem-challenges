@@ -7,14 +7,20 @@ SESSION_ID_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/.offon-sess
 
 # -----------------------------------------------------------------------------
 # Set tracking context and ensure a session ID exists
-# Usage: set_tracking_context "00-lex-imperfecta" "beginner"
+# Usage: set_tracking_context "lex-imperfecta" "beginner" "05" "June" "2026"
 # -----------------------------------------------------------------------------
 set_tracking_context() {
   local adventure=$1
   local level=$2
+  local adventure_number=${3:-""}
+  local publish_month=${4:-""}
+  local publish_year=${5:-""}
 
   export ADVENTURE="$adventure"
   export LEVEL="$level"
+  export ADVENTURE_NUMBER="$adventure_number"
+  export PUBLISH_MONTH="$publish_month"
+  export PUBLISH_YEAR="$publish_year"
 
   if [[ ! -f "$SESSION_ID_FILE" ]]; then
     uuidgen > "$SESSION_ID_FILE"
@@ -40,11 +46,17 @@ send_event() {
     --arg session_id "${OFFON_SESSION_ID:-unknown}" \
     --arg github_user "${GITHUB_USER:-}" \
     --arg github_repo "${GITHUB_REPOSITORY:-}" \
+    --arg adventure_number "${ADVENTURE_NUMBER:-}" \
+    --arg publish_month "${PUBLISH_MONTH:-}" \
+    --arg publish_year "${PUBLISH_YEAR:-}" \
     --argjson extra "$extra_fields" \
     '{
       "type": $event_type,
       "action": $action,
       "adventure": $adventure,
+      "adventure.number": $adventure_number,
+      "adventure.publish_month": $publish_month,
+      "adventure.publish_year": $publish_year,
       "level": $level,
       "session.id": $session_id,
       "github.user": $github_user,

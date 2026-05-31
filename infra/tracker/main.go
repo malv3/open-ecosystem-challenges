@@ -21,15 +21,18 @@ var validActions = map[string]bool{
 }
 
 type bizEvent struct {
-	Type         string   `json:"type"`
-	Action       string   `json:"action"`
-	Adventure    string   `json:"adventure"`
-	Level        string   `json:"level"`
-	SessionID    string   `json:"session.id"`
-	GithubUser   string   `json:"github.user,omitempty"`
-	GithubRepo   string   `json:"github.repo,omitempty"`
-	Status       string   `json:"status,omitempty"`
-	FailedChecks []string `json:"failed_checks,omitempty"`
+	Type                  string   `json:"type"`
+	Action                string   `json:"action"`
+	Adventure             string   `json:"adventure"`
+	AdventureNumber       string   `json:"adventure.number"`
+	AdventurePublishMonth string   `json:"adventure.publish_month"`
+	AdventurePublishYear  string   `json:"adventure.publish_year"`
+	Level                 string   `json:"level"`
+	SessionID             string   `json:"session.id"`
+	GithubUser            string   `json:"github.user,omitempty"`
+	GithubRepo            string   `json:"github.repo,omitempty"`
+	Status                string   `json:"status,omitempty"`
+	FailedChecks          []string `json:"failed_checks,omitempty"`
 }
 
 func (e *bizEvent) validate() string {
@@ -47,6 +50,18 @@ func (e *bizEvent) validate() string {
 	}
 	if e.SessionID == "" {
 		return "session.id is required"
+	}
+	if e.AdventureNumber == "" {
+		return "adventure.number is required"
+	}
+	if e.AdventurePublishMonth == "" {
+		return "adventure.publish_month is required"
+	}
+	if e.AdventurePublishYear == "" {
+		return "adventure.publish_year is required"
+	}
+	if e.Action == "verification.completed" && e.Status == "" {
+		return "status is required for verification.completed"
 	}
 	return ""
 }

@@ -2,7 +2,7 @@
 set -e
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-CHALLENGE_DIR="$REPO_ROOT/adventures/planned/00-lex-imperfecta/beginner"
+CHALLENGE_DIR="$REPO_ROOT/adventures/05-lex-imperfecta/beginner"
 
 echo "✨ Starting Lex Imperfecta - Beginner Level"
 
@@ -16,5 +16,5 @@ kubectl apply -f "$CHALLENGE_DIR/manifests/pods/" 2>&1 || true
 
 # shellcheck disable=SC1091
 source "$REPO_ROOT/lib/scripts/tracker.sh"
-set_tracking_context "lex-imperfecta" "beginner"
+set_tracking_context "lex-imperfecta" "beginner" "05" "06" "2026"
 track_container_initialized
