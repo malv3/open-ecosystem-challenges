@@ -6,7 +6,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 # shellcheck disable=SC1091
 source "$REPO_ROOT/lib/scripts/tracker.sh"
 set_tracking_context "lex-imperfecta" "beginner"
-track_codespace_created
+track_container_created
 
 "$REPO_ROOT/lib/shared/init.sh" --version v0.17.0
 "$REPO_ROOT/lib/kubernetes/init.sh" \

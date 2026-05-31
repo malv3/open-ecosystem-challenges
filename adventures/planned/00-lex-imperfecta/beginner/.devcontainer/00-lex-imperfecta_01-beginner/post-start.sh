@@ -17,4 +17,4 @@ kubectl apply -f "$CHALLENGE_DIR/manifests/pods/" 2>&1 || true
 # shellcheck disable=SC1091
 source "$REPO_ROOT/lib/scripts/tracker.sh"
 set_tracking_context "lex-imperfecta" "beginner"
-track_codespace_initialized
+track_container_initialized
