@@ -10,10 +10,9 @@
   "customizations": {
     "codespaces": {
       "openFiles": [
-        "adventures/05-lex-imperfecta/README.md",
-        "adventures/05-lex-imperfecta/beginner/manifests/policies/no-privileged-containers.yaml",
-        "adventures/05-lex-imperfecta/beginner/manifests/policies/require-labels.yaml",
-        "adventures/05-lex-imperfecta/beginner/manifests/policies/stamp-travel-permit.yaml"
+        "manifests/policies/no-privileged-containers.yaml",
+        "manifests/policies/require-labels.yaml",
+        "manifests/policies/stamp-travel-permit.yaml"
       ],
       "permissions": {
         "codespaces": "write"

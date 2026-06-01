@@ -2,7 +2,7 @@
 # tracker.sh - Sends bizevents to the offon-challenge-tracker Cloud Run service
 
 TRACKER_URL="https://offon-challenge-tracker-291758365471.europe-west1.run.app"
-EVENT_TYPE="offon-challenges"
+EVENT_TYPE="offon.challenge"
 SESSION_ID_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/.offon-session-id"
 
 # -----------------------------------------------------------------------------
@@ -53,14 +53,14 @@ send_event() {
     '{
       "type": $event_type,
       "action": $action,
-      "adventure": $adventure,
+      "adventure.name": $adventure,
       "adventure.number": $adventure_number,
-      "adventure.publish_month": $publish_month,
-      "adventure.publish_year": $publish_year,
-      "level": $level,
+      "adventure.month": $publish_month,
+      "adventure.year": $publish_year,
+      "adventure.level": $level,
       "session.id": $session_id,
-      "github.user": $github_user,
-      "github.repo": $github_repo
+      "github.username": $github_user,
+      "github.repository": $github_repo
     } + $extra'
   )
 
@@ -85,6 +85,6 @@ track_verification_completed() {
   send_event "verification.completed" "$(jq -n \
     --arg status "$status" \
     --argjson failed_checks "$failed_checks" \
-    '{status: $status, failed_checks: $failed_checks}'
+    '{"verification.status": $status, "verification.failed_checks": $failed_checks}'
   )"
 }

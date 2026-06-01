@@ -2,7 +2,7 @@
 
 A Cloud Run service that receives bizevent payloads from challenge Codespaces and forwards them to a Dynatrace tenant.
 
-It validates that every incoming event has `type: offon-challenges`, a known `action`, and all required fields (`adventure`, `level`, `session.id`) before ingesting. Anything else is rejected with a 400.
+It validates that every incoming event has `type: offon.challenge`, a known `action`, and all required fields (`adventure.name`, `adventure.level`, `adventure.number`, `adventure.month`, `adventure.year`, `session.id`) before ingesting. Anything else is rejected with a 400.
 
 ## Deployment
 

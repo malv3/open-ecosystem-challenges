@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	allowedType = "offon-challenges"
+	allowedType = "offon.challenge"
 	dtAPIPath   = "/api/v2/bizevents/ingest"
 )
 
@@ -21,18 +21,18 @@ var validActions = map[string]bool{
 }
 
 type bizEvent struct {
-	Type                  string   `json:"type"`
-	Action                string   `json:"action"`
-	Adventure             string   `json:"adventure"`
-	AdventureNumber       string   `json:"adventure.number"`
-	AdventurePublishMonth string   `json:"adventure.publish_month"`
-	AdventurePublishYear  string   `json:"adventure.publish_year"`
-	Level                 string   `json:"level"`
-	SessionID             string   `json:"session.id"`
-	GithubUser            string   `json:"github.user,omitempty"`
-	GithubRepo            string   `json:"github.repo,omitempty"`
-	Status                string   `json:"status,omitempty"`
-	FailedChecks          []string `json:"failed_checks,omitempty"`
+	Type            string   `json:"type"`
+	Action          string   `json:"action"`
+	AdventureName   string   `json:"adventure.name"`
+	AdventureNumber string   `json:"adventure.number"`
+	AdventureMonth  string   `json:"adventure.month"`
+	AdventureYear   string   `json:"adventure.year"`
+	AdventureLevel  string   `json:"adventure.level"`
+	SessionID       string   `json:"session.id"`
+	GithubUsername  string   `json:"github.username,omitempty"`
+	GithubRepo      string   `json:"github.repository,omitempty"`
+	Status          string   `json:"verification.status,omitempty"`
+	FailedChecks    []string `json:"verification.failed_checks,omitempty"`
 }
 
 func (e *bizEvent) validate() string {
@@ -42,11 +42,11 @@ func (e *bizEvent) validate() string {
 	if !validActions[e.Action] {
 		return "unknown action: " + e.Action
 	}
-	if e.Adventure == "" {
-		return "adventure is required"
+	if e.AdventureName == "" {
+		return "adventure.name is required"
 	}
-	if e.Level == "" {
-		return "level is required"
+	if e.AdventureLevel == "" {
+		return "adventure.level is required"
 	}
 	if e.SessionID == "" {
 		return "session.id is required"
@@ -54,14 +54,14 @@ func (e *bizEvent) validate() string {
 	if e.AdventureNumber == "" {
 		return "adventure.number is required"
 	}
-	if e.AdventurePublishMonth == "" {
-		return "adventure.publish_month is required"
+	if e.AdventureMonth == "" {
+		return "adventure.month is required"
 	}
-	if e.AdventurePublishYear == "" {
-		return "adventure.publish_year is required"
+	if e.AdventureYear == "" {
+		return "adventure.year is required"
 	}
 	if e.Action == "verification.completed" && e.Status == "" {
-		return "status is required for verification.completed"
+		return "verification.status is required for verification.completed"
 	}
 	return ""
 }
