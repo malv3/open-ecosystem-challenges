@@ -23,7 +23,7 @@ set_tracking_context() {
   export PUBLISH_YEAR="$publish_year"
 
   if [[ ! -f "$SESSION_ID_FILE" ]]; then
-    uuidgen > "$SESSION_ID_FILE"
+    cat /proc/sys/kernel/random/uuid > "$SESSION_ID_FILE"
   fi
   export OFFON_SESSION_ID
   OFFON_SESSION_ID=$(cat "$SESSION_ID_FILE")
