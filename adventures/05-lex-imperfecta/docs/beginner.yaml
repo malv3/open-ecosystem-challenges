@@ -48,20 +48,16 @@ what_you_learn:
 
 architecture:
   - >-
-    The defining principle of the Twelve Tables was that Roman law was enforced **at the gates** — before a citizen 
-    could act, not after the damage was done. Kubernetes admission control works exactly the same way: Kyverno 
-    intercepts every request to create or update a workload and checks it against your policies *before* it reaches the 
-    cluster. A misconfigured policy doesn't just fail to enforce — it fails silently, letting non-compliant workloads
-    slip through unnoticed while you assume everything is fine.
+    The Twelve Tables enforced Roman law **at the gates** — before a citizen could act, not after the damage was done.
+    Kyverno works the same way: it intercepts every workload request *before* it reaches the cluster. A misconfigured
+    policy doesn't just fail to enforce — it fails silently, letting non-compliant workloads slip through while you
+    assume everything is fine.
   - >-
-    That's the situation you've inherited. Your Codespace comes with a Kubernetes cluster and Kyverno pre-installed. 
-    Three policies are already deployed — two `ValidatingPolicy` resources that validate workloads, and one 
-    `MutatingPolicy` that automatically stamps incoming pods with the right labels. All three are misconfigured. 
-    The policies live in `manifests/policies/`. You will edit them directly and re-apply with `kubectl`.
-  - >-
-    The pods in `manifests/pods/` are there for reference only — **you don't need to edit them**.
-  - >-
-    No GitOps, no dashboards — just you, the policies, and the cluster.
+    Your Codespace comes with a Kubernetes cluster and Kyverno pre-installed. Three broken policies are already deployed
+    in `manifests/policies/` — two `ValidatingPolicy` resources and one `MutatingPolicy`. Edit them directly and
+    re-apply with `kubectl`. The pods in `manifests/pods/` are for reference only — no GitOps, no dashboards.
+
+architecture_diagram: "lex-imperfecta-beginner.svg"
 
 toolbox:
   - name: kubectl
