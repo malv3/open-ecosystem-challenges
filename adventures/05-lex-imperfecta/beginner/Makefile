@@ -10,7 +10,13 @@ apply:
 	@echo "Applied Policies:"; \
 	for f in manifests/policies/*.yaml; do \
 		name=$$(grep '^  name:' "$$f" | awk '{print $$2}'); \
-		kubectl apply -f "$$f" > /dev/null 2>&1 && echo "  $$name"; \
+		out=$$(kubectl apply -f "$$f" 2>&1); rc=$$?; \
+		if [ $$rc -ne 0 ]; then \
+			echo ""; \
+			echo "$$out"; \
+			exit 1; \
+		fi; \
+		echo "  $$name"; \
 	done; \
 	echo ""
 	@echo "Applied Pods:"; \

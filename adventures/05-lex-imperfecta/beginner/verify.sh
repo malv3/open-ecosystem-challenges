@@ -6,6 +6,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/../../../lib/scripts/loader.sh"
 
+set_tracking_context "lex-imperfecta" "beginner" "05" "06" "2026"
+
 OBJECTIVE="By the end of this level, you should have:
 
 - All workloads missing the 'republic.rome/gens' label blocked at admission with a clear policy violation message
