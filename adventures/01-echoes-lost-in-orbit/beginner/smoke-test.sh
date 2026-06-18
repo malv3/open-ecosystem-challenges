@@ -5,6 +5,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/../../../lib/scripts/loader.sh"
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR/../../../lib/scripts/tracker-legacy.sh"
 
 OBJECTIVE="By the end of this level, you should:
 
@@ -13,7 +15,7 @@ OBJECTIVE="By the end of this level, you should:
 - Make the system resilient so Argo CD automatically reverts manual changes made to the cluster
 - Confirm that updates happen automatically without leaving stale resources behind"
 
-DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/01-echoes-lost-in-orbit/beginner"
+DOCS_URL="https://offon.dev/adventures/echoes-lost-in-orbit/levels/beginner"
 
 print_header \
   'Challenge 01: Echoes Lost in Orbit' \

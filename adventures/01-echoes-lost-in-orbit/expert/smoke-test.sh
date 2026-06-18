@@ -5,6 +5,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/../../../lib/scripts/loader.sh"
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR/../../../lib/scripts/tracker-legacy.sh"
 
 OBJECTIVE="By the end of this level, you should have:
 - Automated rollout progression to HotROD version 1.76.0 driven by observability signals
@@ -17,7 +19,7 @@ OBJECTIVE="By the end of this level, you should have:
   - Error rate thresholds (< 5%)
   - Latency thresholds for the 95th percentile (< 1000ms)"
 
-DOCS_URL="https://dynatrace-oss.github.io/open-ecosystem-challenges/01-echoes-lost-in-orbit/expert"
+DOCS_URL="https://offon.dev/adventures/echoes-lost-in-orbit/levels/expert"
 
 print_header \
   'Challenge 01: Echoes Lost in Orbit' \

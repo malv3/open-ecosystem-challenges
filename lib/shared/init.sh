@@ -1,8 +1,46 @@
 #!/usr/bin/env bash
 set -e
 
-echo "✨ Installing gum"
+help() {
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo " --help             Display this help message"
+  echo " --version <ver>    gum version to install (required)"
+}
 
-curl -LO "https://github.com/charmbracelet/gum/releases/download/v0.17.0/gum_0.17.0_amd64.deb"
-sudo apt install ./gum_0.17.0_amd64.deb
-rm gum_0.17.0_amd64.deb
+# Parse flags
+version=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --help)
+      help
+      exit 0
+      ;;
+    --version)
+      if [[ -z "${2-}" ]]; then
+        echo "Error: --version requires a value" >&2
+        exit 1
+      fi
+      version="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z "$version" ]]; then
+  echo "Error: --version is required" >&2
+  exit 1
+fi
+
+echo "✨ Installing gum"
+# shellcheck disable=SC1091
+source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../scripts/arch.sh"
+
+curl -LO "https://github.com/charmbracelet/gum/releases/download/${version}/gum_${version#v}_${ARCH}.deb"
+sudo apt install "./gum_${version#v}_${ARCH}.deb"
+rm "gum_${version#v}_${ARCH}.deb"
