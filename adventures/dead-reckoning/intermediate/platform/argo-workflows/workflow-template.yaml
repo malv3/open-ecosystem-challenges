@@ -117,7 +117,7 @@ spec:
             cd /workspace/deploy
             # A real platform would bump the tag with a dedicated tool (Argo CD
             # Image Updater, a kustomize edit); sed keeps it visible here.
-            sed -i "s|\(image: localhost:30112/fleet/{{workflow.parameters.repo-name}}:\).*|\1{{inputs.parameters.git-sha}}|" deployment.yaml
+            sed -i "s|image: localhost:30112/fleet/{{workflow.parameters.repo-name}}:.*|image: localhost:30112/fleet/{{workflow.parameters.repo-name}}:{{inputs.parameters.git-sha}}|" deployment.yaml
             git add deployment.yaml
             # Skip the commit when the tag is unchanged (e.g. a re-run on the
             # same SHA), which would otherwise fail with "nothing to commit".
