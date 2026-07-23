@@ -14,7 +14,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// The cargo this vessel is carrying. Fall back to the standard ration
 		// when unset, so a vessel always reports a manifest rather than a blank.
-		cargo := os.Getenv("CARGO")
+		cargo := os.Getenv("PROVISIONS")
 		if cargo == "" {
 			cargo = "salt-pork"
 		}

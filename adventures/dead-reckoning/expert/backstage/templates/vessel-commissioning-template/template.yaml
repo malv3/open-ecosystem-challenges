@@ -182,7 +182,11 @@ spec:
         description: ${{ parameters.description }}
         defaultBranch: main
         sourcePath: ./code
+        gitCommitMessage: |
+          Commission ${{ parameters.name }}
 
+          Traceparent: ${{ steps['trace-start'].output.traceparent }}
+          
     # Enter the vessel into the fleet registry: register the code repo's
     # catalog-info.yaml in the catalog. Only the code repo is registered as a
     # Component; the deploy repo has no catalog presence of its own.
